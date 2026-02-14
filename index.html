@@ -109,7 +109,7 @@
             font-weight: 800;
             letter-spacing: -0.02em;
             background: linear-gradient(135deg, var(--accent), var(--purple));
-            -webkit-background-clip: text;
+            -webkit-background-clip: text; background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -454,7 +454,7 @@
             font-size: 36px;
             font-weight: 800;
             background: linear-gradient(135deg, var(--accent), #fff);
-            -webkit-background-clip: text;
+            -webkit-background-clip: text; background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -770,7 +770,7 @@
             font-size: 42px;
             font-weight: 800;
             background: linear-gradient(135deg, #fff, var(--accent));
-            -webkit-background-clip: text;
+            -webkit-background-clip: text; background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -854,7 +854,7 @@
             margin: 14px 0;
             letter-spacing: 0.12em;
             background: linear-gradient(135deg, var(--accent), var(--gold));
-            -webkit-background-clip: text;
+            -webkit-background-clip: text; background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -1041,9 +1041,21 @@
     <div class="header">
         <div class="logo">CASINO</div>
         <div class="header-actions">
-            <div class="balance-display">🪙 <span id="headerBalance">1000</span></div>
+            <div class="balance-display">
+                <span style="font-size: 16px;">🪙</span> <span id="headerBalance">1000</span>
+            </div>
             <button class="lang-switch" onclick="toggleLanguage()">
-                <span id="langText">EN</span>
+                <div style="display: flex; align-items: center; gap: 4px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <path
+                            d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                        </path>
+                    </svg>
+                    <span id="langText">EN</span>
+                </div>
             </button>
         </div>
     </div>
@@ -1053,35 +1065,35 @@
         <!-- Home Screen -->
         <div id="homeScreen" class="screen active">
             <div class="welcome-section">
-                <h1 class="welcome-title" data-en="Welcome to Casino" data-ru="Добро пожаловать в Казино">Welcome to
-                    Casino</h1>
-                <p class="welcome-subtitle" data-en="Play fair games with crypto"
-                    data-ru="Играйте в честные игры с криптовалютой">Play fair games with crypto</p>
-                <button class="cta-button" onclick="showScreen('gamesScreen')" data-en="Start Playing"
-                    data-ru="Начать играть">Start Playing</button>
+                <h1 class="welcome-title" data-en="Play Smart. Win Big." data-ru="Играй умно. Выигрывай.">Play Smart.
+                    Win Big.</h1>
+                <p class="welcome-subtitle" data-en="Provably fair crypto games" data-ru="Честные крипто-игры">Provably
+                    fair crypto games</p>
+                <button class="cta-button" onclick="showScreen('gamesScreen')" data-en="Play Now"
+                    data-ru="Играть сейчас">Play Now</button>
             </div>
 
-            <h2 class="section-title" data-en="Featured Games" data-ru="Популярные игры">Featured Games</h2>
+            <h2 class="section-title" data-en="Popular Games" data-ru="Популярные игры">Popular Games</h2>
             <div class="games-grid">
                 <div class="game-card" onclick="showGame('dice')">
                     <div class="game-icon">🎲</div>
                     <div class="game-name" data-en="Dice" data-ru="Кости">Dice</div>
-                    <div class="game-edge">~3% edge</div>
+                    <div class="game-edge">~1% Edge</div>
                 </div>
                 <div class="game-card" onclick="showGame('coinflip')">
                     <div class="game-icon">🪙</div>
                     <div class="game-name" data-en="Coin Flip" data-ru="Монетка">Coin Flip</div>
-                    <div class="game-edge">~2% edge</div>
+                    <div class="game-edge">~1% Edge</div>
                 </div>
                 <div class="game-card" onclick="showGame('roulette')">
                     <div class="game-icon">🎡</div>
                     <div class="game-name" data-en="Roulette" data-ru="Рулетка">Roulette</div>
-                    <div class="game-edge">~2.6% edge</div>
+                    <div class="game-edge">~2% Edge</div>
                 </div>
                 <div class="game-card" onclick="showGame('bombyard')">
                     <div class="game-icon">💣</div>
-                    <div class="game-name" data-en="Bomb Yard" data-ru="Минное поле">Bomb Yard</div>
-                    <div class="game-edge">~4% edge</div>
+                    <div class="game-name" data-en="Mines" data-ru="Мины">Mines</div>
+                    <div class="game-edge">~3% Edge</div>
                 </div>
             </div>
         </div>
@@ -1093,22 +1105,22 @@
                 <div class="game-card" onclick="showGame('dice')">
                     <div class="game-icon">🎲</div>
                     <div class="game-name" data-en="Dice" data-ru="Кости">Dice</div>
-                    <div class="game-edge">~3% edge</div>
+                    <div class="game-edge">Dynamic Odds</div>
                 </div>
                 <div class="game-card" onclick="showGame('coinflip')">
                     <div class="game-icon">🪙</div>
                     <div class="game-name" data-en="Coin Flip" data-ru="Монетка">Coin Flip</div>
-                    <div class="game-edge">~2% edge</div>
+                    <div class="game-edge">Double or Nothing</div>
                 </div>
                 <div class="game-card" onclick="showGame('roulette')">
                     <div class="game-icon">🎡</div>
                     <div class="game-name" data-en="Roulette" data-ru="Рулетка">Roulette</div>
-                    <div class="game-edge">~2.6% edge</div>
+                    <div class="game-edge">Classic</div>
                 </div>
                 <div class="game-card" onclick="showGame('bombyard')">
                     <div class="game-icon">💣</div>
-                    <div class="game-name" data-en="Bomb Yard" data-ru="Минное поле">Bomb Yard</div>
-                    <div class="game-edge">~4% edge</div>
+                    <div class="game-name" data-en="Mines" data-ru="Мины">Mines</div>
+                    <div class="game-edge">High Risk</div>
                 </div>
             </div>
         </div>
@@ -1117,16 +1129,21 @@
         <div id="diceGame" class="screen">
             <div class="game-container">
                 <div class="game-header">
-                    <button class="back-button" onclick="showScreen('gamesScreen')" data-en="← Back" data-ru="← Назад">←
-                        Back</button>
+                    <button class="back-button" onclick="showScreen('gamesScreen')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 12H5"></path>
+                            <path d="M12 19l-7-7 7-7"></path>
+                        </svg>
+                    </button>
                     <h2 class="game-title" data-en="Dice" data-ru="Кости">Dice</h2>
-                    <div></div>
+                    <div style="width: 32px;"></div>
                 </div>
 
                 <div class="chance-slider-container">
                     <div class="chance-label">
                         <span data-en="Win Chance" data-ru="Шанс выигрыша">Win Chance</span>
-                        <span id="diceChance">50%</span>
+                        <span id="diceChance" style="color: var(--accent);">50%</span>
                     </div>
                     <input type="range" min="1" max="95" value="50" class="chance-slider" id="diceSlider"
                         oninput="updateDiceChance()">
@@ -1139,19 +1156,18 @@
 
                 <div class="bet-controls">
                     <div class="bet-input-group">
-                        <label class="bet-label" data-en="Bet Amount (🪙)" data-ru="Сумма ставки (🪙)">Bet Amount
-                            (🪙)</label>
+                        <label class="bet-label" data-en="Bet Amount" data-ru="Сумма ставки">Bet Amount</label>
                         <input type="number" class="bet-input" id="diceBet" value="1000" min="1">
                     </div>
                     <div class="quick-bets">
-                        <button class="quick-bet-button" onclick="document.getElementById('diceBet').value = 1000">🪙
-                            1K</button>
-                        <button class="quick-bet-button" onclick="document.getElementById('diceBet').value = 5000">🪙
-                            5K</button>
-                        <button class="quick-bet-button" onclick="document.getElementById('diceBet').value = 10000">🪙
-                            10K</button>
-                        <button class="quick-bet-button" onclick="document.getElementById('diceBet').value = 50000">🪙
-                            50K</button>
+                        <button class="quick-bet-button"
+                            onclick="document.getElementById('diceBet').value = 1000">1K</button>
+                        <button class="quick-bet-button"
+                            onclick="document.getElementById('diceBet').value = 5000">5K</button>
+                        <button class="quick-bet-button"
+                            onclick="document.getElementById('diceBet').value = 10000">10K</button>
+                        <button class="quick-bet-button"
+                            onclick="document.getElementById('diceBet').value = 50000">50K</button>
                     </div>
                     <button class="play-button" onclick="playDice()" data-en="Roll Dice" data-ru="Бросить кости">Roll
                         Dice</button>
@@ -1163,40 +1179,50 @@
         <div id="coinflipGame" class="screen">
             <div class="game-container">
                 <div class="game-header">
-                    <button class="back-button" onclick="showScreen('gamesScreen')" data-en="← Back" data-ru="← Назад">←
-                        Back</button>
+                    <button class="back-button" onclick="showScreen('gamesScreen')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 12H5"></path>
+                            <path d="M12 19l-7-7 7-7"></path>
+                        </svg>
+                    </button>
                     <h2 class="game-title" data-en="Coin Flip" data-ru="Монетка">Coin Flip</h2>
-                    <div></div>
+                    <div style="width: 32px;"></div>
                 </div>
 
                 <div class="coin-options">
-                    <div class="coin-option" id="headsOption" onclick="selectCoin('heads')">🦅</div>
-                    <div class="coin-option" id="tailsOption" onclick="selectCoin('tails')">🌟</div>
+                    <div class="coin-option" id="headsOption" onclick="selectCoin('heads')">
+                        <div style="font-size: 32px; margin-bottom: 8px;">🦅</div>
+                        <div style="font-size: 12px; font-weight: 700; color: var(--text-secondary);">HEADS</div>
+                    </div>
+                    <div class="coin-option" id="tailsOption" onclick="selectCoin('tails')">
+                        <div style="font-size: 32px; margin-bottom: 8px;">🌟</div>
+                        <div style="font-size: 12px; font-weight: 700; color: var(--text-secondary);">TAILS</div>
+                    </div>
                 </div>
 
                 <div class="multiplier-display">
-                    <div class="multiplier-label" data-en="Multiplier" data-ru="Множитель">Multiplier</div>
+                    <div class="multiplier-label" data-en="Multiplier" data-ru="Множитель">Punt Multiplier</div>
                     <div class="multiplier-value">1.96x</div>
                 </div>
 
                 <div class="bet-controls">
                     <div class="bet-input-group">
-                        <label class="bet-label" data-en="Bet Amount (🪙)" data-ru="Сумма ставки (🪙)">Bet Amount
-                            (🪙)</label>
+                        <label class="bet-label" data-en="Bet Amount" data-ru="Сумма ставки">Bet Amount</label>
                         <input type="number" class="bet-input" id="coinBet" value="1000" min="1">
                     </div>
                     <div class="quick-bets">
-                        <button class="quick-bet-button" onclick="document.getElementById('coinBet').value = 1000">🪙
-                            1K</button>
-                        <button class="quick-bet-button" onclick="document.getElementById('coinBet').value = 5000">🪙
-                            5K</button>
-                        <button class="quick-bet-button" onclick="document.getElementById('coinBet').value = 10000">🪙
-                            10K</button>
-                        <button class="quick-bet-button" onclick="document.getElementById('coinBet').value = 50000">🪙
-                            50K</button>
+                        <button class="quick-bet-button"
+                            onclick="document.getElementById('coinBet').value = 1000">1K</button>
+                        <button class="quick-bet-button"
+                            onclick="document.getElementById('coinBet').value = 5000">5K</button>
+                        <button class="quick-bet-button"
+                            onclick="document.getElementById('coinBet').value = 10000">10K</button>
+                        <button class="quick-bet-button"
+                            onclick="document.getElementById('coinBet').value = 50000">50K</button>
                     </div>
-                    <button class="play-button" onclick="playCoinFlip()" data-en="Flip Coin"
-                        data-ru="Подбросить монету">Flip Coin</button>
+                    <button class="play-button" onclick="playCoinFlip()" data-en="Flip Coin" data-ru="Подбросить">Flip
+                        Coin</button>
                 </div>
             </div>
         </div>
@@ -1205,47 +1231,51 @@
         <div id="rouletteGame" class="screen">
             <div class="game-container">
                 <div class="game-header">
-                    <button class="back-button" onclick="showScreen('gamesScreen')" data-en="← Back" data-ru="← Назад">←
-                        Back</button>
+                    <button class="back-button" onclick="showScreen('gamesScreen')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 12H5"></path>
+                            <path d="M12 19l-7-7 7-7"></path>
+                        </svg>
+                    </button>
                     <h2 class="game-title" data-en="Roulette" data-ru="Рулетка">Roulette</h2>
-                    <div></div>
+                    <div style="width: 32px;"></div>
                 </div>
 
                 <div class="roulette-wheel" id="rouletteWheel">🎡</div>
 
                 <div class="roulette-bets">
                     <button class="roulette-bet-button red" id="redBet" onclick="selectRoulette('red')">
-                        <div data-en="Red" data-ru="Красное">Red</div>
-                        <div style="font-size: 12px; margin-top: 4px;">1.95x</div>
-                    </button>
-                    <button class="roulette-bet-button black" id="blackBet" onclick="selectRoulette('black')">
-                        <div data-en="Black" data-ru="Черное">Black</div>
-                        <div style="font-size: 12px; margin-top: 4px;">1.95x</div>
+                        <div data-en="Red" data-ru="Красное">RED</div>
+                        <div style="font-size: 11px; margin-top: 4px; opacity: 0.8;">2x</div>
                     </button>
                     <button class="roulette-bet-button green" id="greenBet" onclick="selectRoulette('green')">
-                        <div data-en="Green" data-ru="Зеленое">Green</div>
-                        <div style="font-size: 12px; margin-top: 4px;">10x</div>
+                        <div data-en="Green" data-ru="Зеленое">ZERO</div>
+                        <div style="font-size: 11px; margin-top: 4px; opacity: 0.8;">14x</div>
+                    </button>
+                    <button class="roulette-bet-button black" id="blackBet" onclick="selectRoulette('black')">
+                        <div data-en="Black" data-ru="Черное">BLACK</div>
+                        <div style="font-size: 11px; margin-top: 4px; opacity: 0.8;">2x</div>
                     </button>
                 </div>
 
                 <div class="bet-controls">
                     <div class="bet-input-group">
-                        <label class="bet-label" data-en="Bet Amount (🪙)" data-ru="Сумма ставки (🪙)">Bet Amount
-                            (🪙)</label>
+                        <label class="bet-label" data-en="Bet Amount" data-ru="Сумма ставки">Bet Amount</label>
                         <input type="number" class="bet-input" id="rouletteBet" value="1000" min="1">
                     </div>
                     <div class="quick-bets">
                         <button class="quick-bet-button"
-                            onclick="document.getElementById('rouletteBet').value = 1000">🪙 1K</button>
+                            onclick="document.getElementById('rouletteBet').value = 1000">1K</button>
                         <button class="quick-bet-button"
-                            onclick="document.getElementById('rouletteBet').value = 5000">🪙 5K</button>
+                            onclick="document.getElementById('rouletteBet').value = 5000">5K</button>
                         <button class="quick-bet-button"
-                            onclick="document.getElementById('rouletteBet').value = 10000">🪙 10K</button>
+                            onclick="document.getElementById('rouletteBet').value = 10000">10K</button>
                         <button class="quick-bet-button"
-                            onclick="document.getElementById('rouletteBet').value = 50000">🪙 50K</button>
+                            onclick="document.getElementById('rouletteBet').value = 50000">50K</button>
                     </div>
-                    <button class="play-button" onclick="playRoulette()" data-en="Spin Wheel"
-                        data-ru="Крутить колесо">Spin Wheel</button>
+                    <button class="play-button" onclick="playRoulette()" data-en="Spin Wheel" data-ru="Крутить">Spin
+                        Wheel</button>
                 </div>
             </div>
         </div>
@@ -1254,50 +1284,54 @@
         <div id="bombyardGame" class="screen">
             <div class="game-container">
                 <div class="game-header">
-                    <button class="back-button" onclick="showScreen('gamesScreen')" data-en="← Back" data-ru="← Назад">←
-                        Back</button>
-                    <h2 class="game-title" data-en="Bomb Yard" data-ru="Минное поле">Bomb Yard</h2>
-                    <div></div>
+                    <button class="back-button" onclick="showScreen('gamesScreen')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 12H5"></path>
+                            <path d="M12 19l-7-7 7-7"></path>
+                        </svg>
+                    </button>
+                    <h2 class="game-title" data-en="Mines" data-ru="Мины">Mines</h2>
+                    <div style="width: 32px;"></div>
                 </div>
 
                 <div class="bomb-stats">
                     <div class="bomb-stat">
-                        <div class="bomb-stat-label" data-en="Picks" data-ru="Ходы">Picks</div>
-                        <div class="bomb-stat-value" id="bombPicks">0</div>
+                        <div class="bomb-stat-label" data-en="Gems" data-ru="Камни">GEMS</div>
+                        <div class="bomb-stat-value" id="bombPicks" style="color: var(--accent);">0</div>
                     </div>
                     <div class="bomb-stat">
-                        <div class="bomb-stat-label" data-en="Multiplier" data-ru="Множитель">Multiplier</div>
+                        <div class="bomb-stat-label" data-en="Multiplier" data-ru="Множитель">MULT</div>
                         <div class="bomb-stat-value" id="bombMultiplier">1.00x</div>
                     </div>
                     <div class="bomb-stat">
-                        <div class="bomb-stat-label" data-en="Win" data-ru="Выигрыш">Win</div>
-                        <div class="bomb-stat-value" id="bombWin">🪙 0</div>
+                        <div class="bomb-stat-label" data-en="Profit" data-ru="Прибыль">PROFIT</div>
+                        <div class="bomb-stat-value" id="bombWin">0</div>
                     </div>
                 </div>
 
                 <div class="bomb-grid" id="bombGrid"></div>
 
                 <button class="cashout-button" id="bombCashout" onclick="cashoutBomb()" disabled data-en="Cashout"
-                    data-ru="Забрать">Cashout</button>
+                    data-ru="Забрать">CASHOUT</button>
 
                 <div class="bet-controls">
                     <div class="bet-input-group">
-                        <label class="bet-label" data-en="Bet Amount (🪙)" data-ru="Сумма ставки (🪙)">Bet Amount
-                            (🪙)</label>
+                        <label class="bet-label" data-en="Bet Amount" data-ru="Сумма ставки">Bet Amount</label>
                         <input type="number" class="bet-input" id="bombBet" value="1000" min="1">
                     </div>
                     <div class="quick-bets">
-                        <button class="quick-bet-button" onclick="document.getElementById('bombBet').value = 1000">🪙
-                            1K</button>
-                        <button class="quick-bet-button" onclick="document.getElementById('bombBet').value = 5000">🪙
-                            5K</button>
-                        <button class="quick-bet-button" onclick="document.getElementById('bombBet').value = 10000">🪙
-                            10K</button>
-                        <button class="quick-bet-button" onclick="document.getElementById('bombBet').value = 50000">🪙
-                            50K</button>
+                        <button class="quick-bet-button"
+                            onclick="document.getElementById('bombBet').value = 1000">1K</button>
+                        <button class="quick-bet-button"
+                            onclick="document.getElementById('bombBet').value = 5000">5K</button>
+                        <button class="quick-bet-button"
+                            onclick="document.getElementById('bombBet').value = 10000">10K</button>
+                        <button class="quick-bet-button"
+                            onclick="document.getElementById('bombBet').value = 50000">50K</button>
                     </div>
                     <button class="play-button" id="bombStart" onclick="startBomb()" data-en="Start Game"
-                        data-ru="Начать игру">Start Game</button>
+                        data-ru="Начать">Start Game</button>
                 </div>
             </div>
         </div>
@@ -1306,45 +1340,30 @@
         <div id="walletScreen" class="screen">
             <div class="wallet-section">
                 <div class="balance-card">
-                    <div class="balance-label" data-en="Main Balance" data-ru="Основной баланс">Main Balance</div>
+                    <div class="balance-label" data-en="Total Balance" data-ru="Общий баланс">TOTAL BALANCE</div>
                     <div class="balance-amount">🪙 <span id="mainBalance">1000</span></div>
-                    <div style="color: var(--text-secondary); font-size: 14px; margin-top: 8px;">≈ $<span
-                            id="usdBalance">10.00</span> USD</div>
+                    <div style="color: var(--text-secondary); font-size: 13px; margin-top: 8px; font-weight: 500;">≈
+                        $<span id="usdBalance">10.00</span> USD</div>
                 </div>
                 <div class="wallet-actions">
                     <button class="wallet-button" data-en="Deposit" data-ru="Пополнить"
-                        onclick="alert('Deposit flow coming soon!')">Deposit</button>
+                        onclick="alert('Deposit module loading...')">Deposit</button>
                     <button class="wallet-button" data-en="Withdraw" data-ru="Вывести"
-                        onclick="alert('Withdraw flow coming soon!')">Withdraw</button>
+                        onclick="alert('Withdraw module loading...')">Withdraw</button>
                 </div>
             </div>
 
             <div class="wallet-section">
-                <h3 class="section-title" data-en="Recent Transactions" data-ru="Последние транзакции">Recent
-                    Transactions</h3>
+                <h3 class="section-title" data-en="History" data-ru="История">History</h3>
                 <div id="transactionList">
                     <div class="transaction-item">
                         <div class="transaction-info">
-                            <div class="transaction-type" data-en="Dice Win" data-ru="Выигрыш в кости">Dice Win</div>
-                            <div class="transaction-time">2 minutes ago</div>
+                            <div class="transaction-type" data-en="Dice Win" data-ru="Выигрыш">Dice Win</div>
+                            <div class="transaction-time">Just now</div>
                         </div>
                         <div class="transaction-amount positive">+50 🪙</div>
                     </div>
-                    <div class="transaction-item">
-                        <div class="transaction-info">
-                            <div class="transaction-type" data-en="Coin Flip Bet" data-ru="Ставка на монетку">Coin Flip
-                                Bet</div>
-                            <div class="transaction-time">5 minutes ago</div>
-                        </div>
-                        <div class="transaction-amount negative">-20 🪙</div>
-                    </div>
-                    <div class="transaction-item">
-                        <div class="transaction-info">
-                            <div class="transaction-type" data-en="Deposit" data-ru="Пополнение">Deposit</div>
-                            <div class="transaction-time">1 hour ago</div>
-                        </div>
-                        <div class="transaction-amount positive">+1000 🪙</div>
-                    </div>
+                    <!-- More items would be dynamically added -->
                 </div>
             </div>
         </div>
@@ -1352,44 +1371,34 @@
         <!-- Referrals Screen -->
         <div id="referralsScreen" class="screen">
             <div class="wallet-section">
-                <h3 class="section-title" data-en="Your Referral Code" data-ru="Ваш реферальный код">Your Referral Code
-                </h3>
+                <h3 class="section-title" data-en="Affiliate" data-ru="Партнерка">Affiliate</h3>
                 <div class="referral-code-card">
+                    <div style="color: var(--text-secondary); font-size: 12px; margin-bottom: 8px;">YOUR CODE</div>
                     <div class="referral-code">LUCKY777</div>
                     <button class="copy-button" onclick="copyReferralCode()" data-en="Copy Link"
-                        data-ru="Скопировать ссылку">Copy Link</button>
+                        data-ru="Скопировать">Copy Link</button>
                 </div>
             </div>
 
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-label" data-en="Total Earned" data-ru="Всего заработано">Total Earned</div>
-                    <div class="stat-value">🪙 25000</div>
+                    <div class="stat-label" data-en="Earnings" data-ru="Доход">Earnings</div>
+                    <div class="stat-value">25K</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label" data-en="Referrals" data-ru="Рефералов">Referrals</div>
+                    <div class="stat-label" data-en="Friends" data-ru="Друзья">Friends</div>
                     <div class="stat-value">12</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label" data-en="Locked" data-ru="Заблокировано">Locked</div>
-                    <div class="stat-value">🪙 8000</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label" data-en="Unlocked" data-ru="Разблокировано">Unlocked</div>
-                    <div class="stat-value">🪙 17000</div>
                 </div>
             </div>
 
             <div class="wallet-section">
-                <h3 class="section-title" data-en="Referral Tiers" data-ru="Уровни рефералов">Referral Tiers</h3>
+                <h3 class="section-title" data-en="Tiers" data-ru="Уровни">Commission Tiers</h3>
                 <div class="referral-tier">
-                    <div class="tier-info" data-en="Level 1 - Direct Referrals" data-ru="Уровень 1 - Прямые рефералы">
-                        Level 1 - Direct Referrals</div>
+                    <div class="tier-info">Tier 1</div>
                     <div class="tier-percentage">10%</div>
                 </div>
                 <div class="referral-tier">
-                    <div class="tier-info" data-en="Level 2 - Second Level" data-ru="Уровень 2 - Второй уровень">Level 2
-                        - Second Level</div>
+                    <div class="tier-info">Tier 2</div>
                     <div class="tier-percentage">3%</div>
                 </div>
             </div>
@@ -1398,30 +1407,32 @@
         <!-- Profile Screen -->
         <div id="profileScreen" class="screen">
             <div class="profile-section">
-                <h3 class="section-title" data-en="Account Info" data-ru="Информация об аккаунте">Account Info</h3>
-                <div class="profile-item">
-                    <div class="profile-label" data-en="Wallet" data-ru="Кошелек">Wallet</div>
-                    <div class="profile-value">0x742d...4a8c</div>
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <div
+                        style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--accent), var(--purple)); border-radius: 50%; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 800;">
+                        C</div>
+                    <h3 style="font-family: 'Syne'; font-size: 20px;">Player One</h3>
+                    <div style="color: var(--text-secondary); font-size: 13px;">Level 12</div>
                 </div>
+
                 <div class="profile-item">
-                    <div class="profile-label" data-en="Member Since" data-ru="Участник с">Member Since</div>
-                    <div class="profile-value">Feb 14, 2026</div>
+                    <div class="profile-label" data-en="Wallet" data-ru="Кошелек">Wallet Connected</div>
+                    <div class="profile-value" style="font-family: monospace;">0x74...4a8c</div>
                 </div>
                 <div class="profile-item">
                     <div class="profile-label" data-en="Language" data-ru="Язык">Language</div>
-                    <div class="profile-value"><span id="profileLang">English</span></div>
+                    <div class="profile-value" style="color: var(--text-primary);"><span id="profileLang">English</span>
+                    </div>
                 </div>
             </div>
 
             <div class="profile-section">
-                <h3 class="section-title" data-en="Settings" data-ru="Настройки">Settings</h3>
-                <div class="profile-item">
-                    <div class="profile-label" data-en="Terms & Conditions" data-ru="Условия использования">Terms &
-                        Conditions</div>
+                <div class="profile-item" onclick="alert('Support')" style="cursor: pointer;">
+                    <div class="profile-label" data-en="Live Support" data-ru="Поддержка">Live Support</div>
                     <div class="profile-value">→</div>
                 </div>
-                <div class="profile-item">
-                    <div class="profile-label" data-en="Support" data-ru="Поддержка">Support</div>
+                <div class="profile-item" onclick="alert('T&C')" style="cursor: pointer;">
+                    <div class="profile-label" data-en="Fairness" data-ru="Честность">Fairness</div>
                     <div class="profile-value">→</div>
                 </div>
             </div>
@@ -1431,36 +1442,45 @@
     <!-- Bottom Navigation -->
     <div class="bottom-nav">
         <button class="nav-item active" onclick="showScreen('homeScreen')">
-            <svg class="nav-icon" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
             </svg>
-            <span data-en="Home" data-ru="Главная">Home</span>
+            <span data-en="Lobby" data-ru="Лобби">Lobby</span>
         </button>
         <button class="nav-item" onclick="showScreen('gamesScreen')">
-            <svg class="nav-icon" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                    d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
             </svg>
             <span data-en="Games" data-ru="Игры">Games</span>
         </button>
         <button class="nav-item" onclick="showScreen('walletScreen')">
-            <svg class="nav-icon" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                    d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                <line x1="1" y1="10" x2="23" y2="10"></line>
             </svg>
             <span data-en="Wallet" data-ru="Кошелек">Wallet</span>
         </button>
         <button class="nav-item" onclick="showScreen('referralsScreen')">
-            <svg class="nav-icon" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                    d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
             </svg>
-            <span data-en="Referrals" data-ru="Рефералы">Referrals</span>
+            <span data-en="Team" data-ru="Команда">Team</span>
         </button>
         <button class="nav-item" onclick="showScreen('profileScreen')">
-            <svg class="nav-icon" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                    d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
             </svg>
             <span data-en="Profile" data-ru="Профиль">Profile</span>
         </button>
@@ -1472,7 +1492,7 @@
             <div class="result-emoji" id="resultEmoji">🎉</div>
             <div class="result-title" id="resultTitle">You Won!</div>
             <div class="result-amount" id="resultAmount">+50 🪙</div>
-            <button class="close-result-button" onclick="closeResult()">Continue</button>
+            <button class="close-result-button" onclick="closeResult()">CONTINUE</button>
         </div>
     </div>
 
@@ -1724,7 +1744,7 @@
             initBombGrid();
             document.getElementById('bombPicks').textContent = '0';
             document.getElementById('bombMultiplier').textContent = '1.00x';
-            document.getElementById('bombWin').textContent = '🪙 0';
+            document.getElementById('bombWin').textContent = '0';
             document.getElementById('bombCashout').disabled = true;
             document.getElementById('bombStart').disabled = true;
         }
@@ -1760,7 +1780,7 @@
 
                 document.getElementById('bombPicks').textContent = bombGame.picks;
                 document.getElementById('bombMultiplier').textContent = bombGame.multiplier.toFixed(2) + 'x';
-                document.getElementById('bombWin').textContent = '🪙 ' + Math.floor(bombGame.betAmount * bombGame.multiplier);
+                document.getElementById('bombWin').textContent = Math.floor(bombGame.betAmount * bombGame.multiplier);
                 document.getElementById('bombCashout').disabled = false;
             }
         }
@@ -1783,7 +1803,7 @@
             initBombGrid();
             document.getElementById('bombPicks').textContent = '0';
             document.getElementById('bombMultiplier').textContent = '1.00x';
-            document.getElementById('bombWin').textContent = '$0';
+            document.getElementById('bombWin').textContent = '0';
         }
 
         // Result modal
@@ -1820,9 +1840,10 @@
             });
         }
 
-        // Initialize
+        // Initialize display
         initBombGrid();
         updateDiceChance();
+        updateBalance();
     </script>
 </body>
 
