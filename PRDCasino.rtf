@@ -1,0 +1,1117 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 HelveticaNeue-Bold;\f1\fnil\fcharset0 HelveticaNeue;\f2\fswiss\fcharset0 ArialMT;
+\f3\fnil\fcharset0 .SFNS-Regular;\f4\fnil\fcharset0 LucidaGrande;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red255\green255\blue255;\red255\green255\blue255;
+\red255\green255\blue255;\red255\green255\blue255;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\cssrgb\c100000\c100000\c99956\c0;\cssrgb\c100000\c100000\c99941;
+\cssrgb\c100000\c100000\c99956\c0;\cssrgb\c100000\c100000\c99941;}
+\margl1440\margr1440\vieww20700\viewh12940\viewkind0
+\deftab560
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b\fs26 \cf0 Product Requirements Document (PRD)
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 1. Product Overview
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 1.1 Product Name
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+Casino Web Platform (working title)\
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 1.2 Product Type
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+Mobile-first casino website using play money pegged 1:1 to dollar(
+\f2\fs40 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec4 $
+\f1\fs26 \cf0 \cb1 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 ), with crypto deposits and withdrawals.\
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 1.3 Target Audience
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	Primary: Users from Russia and Russian-speaking countries\
+	\'95	Secondary: International users familiar with crypto casinos\
+	\'95	Age: 18+\
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 1.4 Languages
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	Russian (default for RU IPs)\
+	\'95	English\
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 1.5 Core Goal
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+Create a simple, fast, mobile-friendly casino platform that:\
+	\'95	Generates consistent profit via controlled house edge\
+	\'95	Offers fair chances to win\
+	\'95	Uses an aggressive but protected referral system\
+	\'95	Is optimized for crypto usage (especially USDT)\
+\
+
+\f3 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 2. Core Principles
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	Mobile-first design\
+	\'95	Minimal, light UI\
+	\'95	Fast gameplay loops\
+	\'95	Transparent but casino-safe odds\
+	\'95	Strong anti-abuse and fraud protection\
+	\'95	Full control via admin panel\
+\
+
+\f3 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 3. Currency & Economy
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 3.1 Play Money
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	Internal currency displayed as USD (
+\f2\fs40 \cf2 \cb5 \expnd0\expndtw0\kerning0
+$
+\f1\fs26 \cf0 \cb1 \kerning1\expnd0\expndtw0 )\
+	\'95	1:1 peg to dollar for UX clarity only\
+	\'95	No real dollar transactions\
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 3.2 Real Value Entry & Exit
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	Deposits: Crypto only\
+	\'95	Withdrawals: Crypto only\
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 3.3 Supported Cryptocurrencies (Phase 1)
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	USDT (TRC-20) \'97 primary\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+\cf0 	\'95	USDC (Base)\
+	\'95	TON\
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+
+\f3 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 4. User Accounts
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 4.1 Registration
+\f1\b0 \
+	\'95	Wallet connection\
+	\'95	Referral code auto-attached if link used\
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	Language auto-detected\
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 4.2 Login
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	Wallet connection\
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 4.3 Account Limits
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	One account per wallet\
+	\'95	Anti-duplicate detection (IP, device, wallet)\
+\
+
+\f3 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 5. Wallet System
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 5.1 Wallet Types
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	Main Balance (play money)\
+	\'95	Locked Referral Balance\
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 5.2 Wallet Ledger
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+Every transaction must be logged:\
+	\'95	Type (deposit, bet, win, loss, referral, withdrawal)\
+	\'95	Amount\
+	\'95	Timestamp\
+	\'95	Related user / game / referral\
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 5.3 Deposits
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	Unique address generated per deposit\
+	\'95	Network clearly shown\
+	\'95	Confirmations required\
+	\'95	Exchange rate locked at deposit time\
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 5.4 Withdrawals
+\f1\b0 \
+	\'95	Minimum withdrawal amount is 500\
+	\'95	Manual review rules\
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	Withdrawal delay: 1\'9624 hours\
+	\'95	Referral rewards must be unlocked to withdraw\
+\
+
+\f3 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 6. Games (MVP)
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 6.1 Global Game Rules
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	Server-side RNG\
+	\'95	All bets logged\
+	\'95	House edge: 2\'966% depending on game\
+	\'95	Bet limits enforced\
+\
+
+\f3 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 6.2 Dice
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\b \cf0 Description:
+\f1\b0 \
+User selects win chance percentage.\
+\
+
+\f0\b Math:
+\f1\b0 \
+	\'95	Displayed chance > actual chance\
+	\'95	Payout formula:\
+(100 / chosen chance) \'d7 0.97\
+\
+
+\f0\b House Edge:
+\f1\b0  ~3%\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f3 \cf0 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 6.3 Coin Flip
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\b \cf0 Description:
+\f1\b0 \
+Simple heads/tails game.\
+\
+
+\f0\b Rules:
+\f1\b0 \
+	\'95	Win chance: 49%\
+	\'95	Lose chance: 51%\
+	\'95	Payout: 1.96x\
+\
+
+\f0\b House Edge:
+\f1\b0  ~2%\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f3 \cf0 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 6.4 Roulette-Lite
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\b \cf0 Wheel:
+\f1\b0 \
+	\'95	Red: 18\
+	\'95	Black: 18\
+	\'95	Green: 2\
+\
+
+\f0\b Payouts:
+\f1\b0 \
+	\'95	Red/Black: 1.95x\
+	\'95	Green: 10x\
+\
+
+\f0\b House Edge:
+\f1\b0  ~2.6%\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f3 \cf0 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 6.5 Bomb Yard
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\b \cf0 Grid:
+\f1\b0 \
+	\'95	5\'d75 (25 tiles)\
+\
+
+\f0\b Bomb Percentage:
+\f1\b0 \
+	\'95	Starting: 20%\
+	\'95	Dynamically adjusted per pick\
+\
+
+\f0\b Payout Curve:
+\f1\b0 \
+	\'95	Increases non-linearly\
+	\'95	Cashout anytime\
+\
+
+\f0\b House Edge:
+\f1\b0  4\'966%\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f3 \cf0 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 7. Referral System
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 7.1 Referral Levels
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	Level 1: 10% of referred user\'92s deposits\
+	\'95	Level 2: 3% of second-level deposits\
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 7.2 Reward Crediting
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	Instant credit to wallet\
+	\'95	Marked as \'93locked referral balance\'94\
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 7.3 Unlocking Rules
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	Referral rewards require wagering:\
+Referral amount \'d7 3\
+	\'95	Losses count 100%\
+	\'95	Wins count 50%\
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 7.4 Reversal Rules
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+Referral rewards are reversed if:\
+	\'95	Referred user withdraws \uc0\u8805 80% without betting\
+	\'95	Less than 5 bets placed\
+	\'95	Deposit withdrawn within 24 hours\
+\
+
+\f3 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 8. Anti-Abuse & Fraud Protection
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 8.1 Self-Referral Prevention
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+Block rewards if any match:\
+	\'95	Same crypto wallet\
+	\'95	Same withdrawal address\
+	\'95	Same device fingerprint\
+	\'95	Same IP pattern\
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 8.2 Referral Abuse Detection
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+Flags triggered by:\
+	\'95	Identical deposits\
+	\'95	Rapid deposit timing\
+	\'95	Low-risk betting behavior\
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 8.3 Referral Caps
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	Daily Level 1: \uc0\u8381 50,000\
+	\'95	Daily Level 2: \uc0\u8381 20,000\
+	\'95	Lifetime per user enforced\
+\
+
+\f3 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 9. Admin Panel
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 9.1 Core Controls
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	User management\
+	\'95	Balance adjustments\
+	\'95	Deposit & withdrawal approval\
+	\'95	Referral overrides\
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 9.2 Game Controls
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	Enable/disable games\
+	\'95	Adjust odds & bomb percentages\
+	\'95	Set bet limits\
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 9.3 Risk Management
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	Fraud alerts\
+	\'95	Referral abuse flags\
+	\'95	Emergency kill switches\
+\
+
+\f3 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 10. UX/UI Requirements
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 10.1 Design Style
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	Light theme\
+	\'95	Minimal colors\
+	\'95	Large mobile-friendly buttons\
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 10.2 Navigation
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+Bottom navigation:\
+	\'95	Home\
+	\'95	Games\
+	\'95	Wallet\
+	\'95	Referrals\
+	\'95	Profile\
+\
+
+\f3 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 11. Performance & Security
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	Encrypted passwords\
+	\'95	Rate limiting\
+	\'95	Secure RNG\
+	\'95	Full audit logs\
+\
+
+\f3 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 12. Compliance & Restrictions
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	Age restriction: 18+\
+	\'95	Geo-blocking if required\
+	\'95	Terms & Conditions required\
+\
+
+\f3 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 13. Launch Strategy
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 13.1 Soft Launch
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	Low limits\
+	\'95	Manual withdrawals\
+	\'95	Invite-only\
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 13.2 Scaling
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	Increase limits gradually\
+	\'95	Enable automation\
+	\'95	Add new games\
+\
+
+\f3 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 14. Future Enhancements
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	VIP levels\
+	\'95	Tournaments\
+	\'95	Provably fair verification\
+	\'95	Affiliate dashboard\
+	\'95	Mobile app wrapper\
+\
+
+\f3 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 15. Success Metrics
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 	\'95	Deposit volume\
+	\'95	House profit\
+	\'95	Referral-driven growth\
+	\'95	Retention rate\
+	\'95	Fraud rate\
+\
+
+\f3 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 16. Developer Task List (Backlog)
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 16.1 Project Setup & Foundations
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\b \cf0 DEV-001 Repo + environments
+\f1\b0 \
+	\'95	Create mono-repo or separated repos (frontend/backend)\
+	\'95	Configure dev/staging/prod environments\
+	\'95	CI pipeline: lint, tests, build, deploy\
+	\'95	Secrets management (env vars, vault)\
+\
+
+\f0\b DEV-002 Database schema (v1)
+\f1\b0 \
+	\'95	Users\
+	\'95	Sessions / auth tokens\
+	\'95	Wallet ledger (immutable entries)\
+	\'95	Balances (derived or cached)\
+	\'95	Deposits (crypto)\
+	\'95	Withdrawals (crypto)\
+	\'95	Bets (all games)\
+	\'95	Game rounds (optional)\
+	\'95	Referrals (relationships)\
+	\'95	Referral earnings (locked/unlocked)\
+	\'95	Risk flags / audit logs\
+\
+
+\f0\b DEV-003 API skeleton
+\f1\b0 \
+	\'95	REST or GraphQL endpoints scaffold\
+	\'95	Request validation + error format standard\
+	\'95	Pagination + filtering utilities\
+\
+
+\f0\b DEV-004 Localization framework
+\f1\b0 \
+	\'95	i18n setup (RU/EN)\
+	\'95	Content keys + fallback rules\
+	\'95	Language auto-detect by browser + RU IP default\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f3 \cf0 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 16.2 Authentication & User Account
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\b \cf0 DEV-010 Registration + login
+\f1\b0 \
+	\'95	Email/password signup\
+	\'95	Password hashing\
+	\'95	Login endpoint\
+	\'95	Session/token handling\
+\
+
+\f0\b DEV-011 Referral attribution on signup
+\f1\b0 \
+	\'95	Accept referral code/link\
+	\'95	Persist referrer relationship\
+	\'95	Prevent changes after first set\
+\
+
+\f0\b DEV-012 Account security basics
+\f1\b0 \
+	\'95	Rate limiting (login/signup)\
+	\'95	Email verification (optional for MVP but recommended)\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f3 \cf0 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 16.3 Wallet Ledger & Balances
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\b \cf0 DEV-020 Wallet ledger implementation
+\f1\b0 \
+	\'95	Immutable ledger entries\
+	\'95	Types: deposit_credit, bet_debit, win_credit, referral_credit_locked, referral_unlock, withdrawal_debit, adjustment\
+	\'95	Idempotency keys for external events\
+\
+
+\f0\b DEV-021 Balance computation
+\f1\b0 \
+	\'95	Main balance\
+	\'95	Locked referral balance\
+	\'95	Unlocked referral balance\
+	\'95	Wagering progress tracker (see DEV-070)\
+\
+
+\f0\b DEV-022 Transaction history API
+\f1\b0 \
+	\'95	List ledger entries (filters by type/date)\
+	\'95	Export/csv endpoint (admin)\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f3 \cf0 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 16.4 Crypto Deposits
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\b \cf0 DEV-030 Payment integration (Phase 1)
+\f1\b0 \
+	\'95	Choose deposit method:\
+	\'95	Option A: Payment processor API\
+	\'95	Option B: Self-hosted wallet + blockchain watcher\
+	\'95	Implement USDT TRC-20 first\
+	\'95	Support unique deposit address generation per user per deposit\
+\
+
+\f0\b DEV-031 Deposit UI + instructions
+\f1\b0 \
+	\'95	Currency + network selection\
+	\'95	Display address + amount\
+	\'95	Strong network warnings (TRC-20 vs ERC-20)\
+\
+
+\f0\b DEV-032 Deposit confirmations + crediting
+\f1\b0 \
+	\'95	Watcher service listens for incoming transfers\
+	\'95	Confirmation thresholds per chain\
+	\'95	Credit ledger entry with RUB-pegged amount (rate locked at deposit time)\
+	\'95	Prevent double-credit (idempotency)\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f3 \cf0 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 16.5 Withdrawals
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\b \cf0 DEV-040 Withdrawal request flow
+\f1\b0 \
+	\'95	Create withdrawal request\
+	\'95	Validate min amount + available unlocked funds\
+	\'95	Lock funds immediately (pending withdrawal)\
+\
+
+\f0\b DEV-041 Manual review tooling (MVP)
+\f1\b0 \
+	\'95	Admin approve/deny\
+	\'95	Notes + audit logs\
+	\'95	SLA delay settings (1\'9624h)\
+\
+
+\f0\b DEV-042 Payout execution
+\f1\b0 \
+	\'95	Processor payout API or wallet send\
+	\'95	Ledger updates on success/failure\
+	\'95	Notifications to user\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f3 \cf0 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 16.6 Games Platform (Common)
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\b \cf0 DEV-050 RNG service
+\f1\b0 \
+	\'95	Secure server-side RNG\
+	\'95	Seed storage + rotation\
+	\'95	Store per-bet RNG input/output\
+\
+
+\f0\b DEV-051 Betting engine
+\f1\b0 \
+	\'95	Validate bet limits\
+	\'95	Atomic balance update (debit bet, credit win)\
+	\'95	Full bet logging\
+	\'95	Concurrency-safe (no double spend)\
+\
+
+\f0\b DEV-052 Game configuration
+\f1\b0 \
+	\'95	Central config table:\
+	\'95	House edge\
+	\'95	Min/max bet\
+	\'95	Max win\
+	\'95	Enabled/disabled\
+	\'95	Admin-editable with audit trail\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f3 \cf0 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 16.7 Game Implementations (MVP)
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\b \cf0 DEV-060 Dice
+\f1\b0 \
+	\'95	Endpoint: place bet with chosen chance + stake\
+	\'95	Payout formula: (100 / chance) \'d7 0.97\
+	\'95	Actual RNG win check\
+	\'95	UI: slider/input for chance + quick presets\
+\
+
+\f0\b DEV-061 Coin Flip
+\f1\b0 \
+	\'95	Endpoint: heads/tails + stake\
+	\'95	Win probability: 49%\
+	\'95	Payout: 1.96x\
+	\'95	UI: big toggle + animation optional\
+\
+
+\f0\b DEV-062 Roulette-Lite
+\f1\b0 \
+	\'95	Implement wheel (18/18/2)\
+	\'95	Bets: Red/Black/Green\
+	\'95	Payouts: 1.95x / 10x\
+	\'95	UI: simple wheel or instant result with animation\
+\
+
+\f0\b DEV-063 Bomb Yard
+\f1\b0 \
+	\'95	Grid 5\'d75\
+	\'95	Configurable bomb percentage (start 20%)\
+	\'95	Session-based round state:\
+	\'95	generate bombs\
+	\'95	track picks\
+	\'95	allow cashout anytime\
+	\'95	Non-linear payout curve table stored in config\
+	\'95	UI: grid, pick tiles, cashout button, multiplier display\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f3 \cf0 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 16.8 Referral System
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\b \cf0 DEV-070 Referral graph & tracking
+\f1\b0 \
+	\'95	Store Level 1 referrer\
+	\'95	Compute Level 2 referrer\
+	\'95	Prevent circular refs\
+\
+
+\f0\b DEV-071 Referral reward crediting
+\f1\b0 \
+	\'95	On confirmed deposit:\
+	\'95	credit L1 = 10% locked\
+	\'95	credit L2 = 3% locked\
+	\'95	Apply caps (daily + lifetime)\
+\
+
+\f0\b DEV-072 Referral wagering unlock system
+\f1\b0 \
+	\'95	Wager requirement: referral_amount \'d7 3\
+	\'95	Losses count 100%\
+	\'95	Wins count 50%\
+	\'95	Track progress per user\
+	\'95	When complete: move locked 
+\f4 \uc0\u8594 
+\f1  unlocked\
+\
+
+\f0\b DEV-073 Referral reversals
+\f1\b0 \
+	\'95	Reverse locked referral credits if:\
+	\'95	withdraw \uc0\u8805 80% of deposit without betting\
+	\'95	<5 bets before withdrawal\
+	\'95	withdraw within 24 hours\
+	\'95	Implement clawback ledger entries\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f3 \cf0 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 16.9 Anti-Abuse & Risk
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\b \cf0 DEV-080 Device & fraud signals
+\f1\b0 \
+	\'95	Device fingerprinting (privacy-respecting)\
+	\'95	Capture IP + ASN + geo\
+	\'95	Store deposit wallet addresses + withdrawal wallets\
+\
+
+\f0\b DEV-081 Self-referral blocking
+\f1\b0 \
+	\'95	Block rewards if:\
+	\'95	same deposit wallet reused\
+	\'95	same withdrawal wallet\
+	\'95	same device fingerprint\
+	\'95	suspicious IP reuse patterns\
+\
+
+\f0\b DEV-082 Risk scoring + flags
+\f1\b0 \
+	\'95	Rules engine for triggers:\
+	\'95	identical deposits across referred accounts\
+	\'95	rapid signup
+\f4 \uc0\u8594 
+\f1 deposit clustering\
+	\'95	low-risk betting patterns\
+	\'95	Admin dashboard list + reason\
+\
+
+\f0\b DEV-083 Emergency kill switch
+\f1\b0 \
+	\'95	Toggle referrals off\
+	\'95	Toggle withdrawals to manual-only\
+	\'95	Toggle any game off\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f3 \cf0 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 16.10 Admin Panel
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\b \cf0 DEV-090 Admin auth + roles
+\f1\b0 \
+	\'95	Admin login\
+	\'95	Roles: viewer, support, finance, superadmin\
+\
+
+\f0\b DEV-091 User management
+\f1\b0 \
+	\'95	Search users\
+	\'95	View balances + ledger\
+	\'95	Freeze/unfreeze\
+	\'95	Manual adjustments (with reason)\
+\
+
+\f0\b DEV-092 Deposit/withdrawal console
+\f1\b0 \
+	\'95	View all deposits\
+	\'95	View withdrawal queue\
+	\'95	Approve/deny with notes\
+\
+
+\f0\b DEV-093 Referral controls
+\f1\b0 \
+	\'95	Set percentages\
+	\'95	Set caps\
+	\'95	Manual lock/unlock\
+	\'95	Disable program\
+\
+
+\f0\b DEV-094 Game controls
+\f1\b0 \
+	\'95	Enable/disable games\
+	\'95	Edit odds parameters / bomb % / payout tables\
+	\'95	Edit bet limits\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f3 \cf0 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 16.11 Frontend (Mobile-First)
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\b \cf0 DEV-100 Design system
+\f1\b0 \
+	\'95	Light theme, spacing, typography\
+	\'95	Button styles + inputs\
+\
+
+\f0\b DEV-101 Navigation
+\f1\b0 \
+	\'95	Bottom nav: Home, Games, Wallet, Referrals, Profile\
+\
+
+\f0\b DEV-102 Screens (MVP)
+\f1\b0 \
+	\'95	Landing\
+	\'95	Auth\
+	\'95	Lobby\
+	\'95	Game screens (4)\
+	\'95	Wallet\
+	\'95	Deposit/withdraw flows\
+	\'95	Referrals dashboard\
+	\'95	Profile + language switch\
+\
+
+\f0\b DEV-103 UX polish
+\f1\b0 \
+	\'95	Loading states\
+	\'95	Error states\
+	\'95	Empty states\
+	\'95	Toast notifications\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f3 \cf0 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 16.12 Observability, QA, and Security
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\b \cf0 DEV-110 Logging & metrics
+\f1\b0 \
+	\'95	Structured logs\
+	\'95	Game profitability metrics\
+	\'95	Deposit/withdraw success rates\
+\
+
+\f0\b DEV-111 Test suite
+\f1\b0 \
+	\'95	Unit tests for game math\
+	\'95	Integration tests for ledger atomicity\
+	\'95	Deposit idempotency tests\
+\
+
+\f0\b DEV-112 Security hardening
+\f1\b0 \
+	\'95	Rate limits\
+	\'95	WAF/bot protection hooks\
+	\'95	Secrets rotation\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f3 \cf0 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+
+\f0\b \cf0 16.13 Release Plan
+\f1\b0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\b \cf0 DEV-120 Soft launch setup
+\f1\b0 \
+	\'95	Invite-only mode\
+	\'95	Low bet/win limits\
+	\'95	Manual withdrawals only\
+\
+
+\f0\b DEV-121 Launch checklist
+\f1\b0 \
+	\'95	Backup + restore tested\
+	\'95	Incident runbook\
+	\'95	Admin kill switch verified\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f3 \cf0 \uc0\u11835 
+\f1 \
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\b \cf0 End of PRD}
