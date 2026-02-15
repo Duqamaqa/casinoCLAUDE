@@ -1,0 +1,55 @@
+{
+  "version": "1.0",
+  "currency": "coins",
+  "min_bet": 1,
+  "max_bet": 10000,
+
+  "pools": [
+    {
+      "id": 0,
+      "name": "Shallow",
+      "target_mu": 0.990,
+      "max_mult": 2.0,
+      "volatility": "low",
+      "comment": "Conservative pool. RTP 93-96% for 4-7 fish encounters."
+    },
+    {
+      "id": 1,
+      "name": "Mid",
+      "target_mu": 0.988,
+      "max_mult": 2.5,
+      "volatility": "medium",
+      "comment": "Moderate pool. RTP 84-89% for 10-14 fish encounters."
+    },
+    {
+      "id": 2,
+      "name": "Deep",
+      "target_mu": 0.985,
+      "max_mult": 3.0,
+      "volatility": "high",
+      "comment": "Wild pool. RTP ~76% for 18 fish encounters."
+    }
+  ],
+
+  "zones": [
+    { "id": 1, "name": "Shallow Reef",   "depth": 200,  "n": 4,  "pool": 0 },
+    { "id": 2, "name": "Coral Gardens",   "depth": 500,  "n": 7,  "pool": 0 },
+    { "id": 3, "name": "Midnight Abyss",  "depth": 1000, "n": 10, "pool": 1 },
+    { "id": 4, "name": "Hadal Trench",    "depth": 3000, "n": 14, "pool": 1 },
+    { "id": 5, "name": "Mariana Deep",    "depth": 6000, "n": 18, "pool": 2 }
+  ],
+
+  "timing": {
+    "dive_duration_base_sec": 6,
+    "dive_duration_per_fish_sec": 0.8,
+    "comment": "Total dive = base + n × per_fish. Affects UX only, not math."
+  },
+
+  "formulas": {
+    "rtp": "mu ^ n",
+    "house_edge": "1 - mu ^ n",
+    "solve_mu_for_rtp": "rtp ^ (1/n)",
+    "daily_ggr": "sum(bets_zone × avg_bet × edge_zone)",
+    "outcome": "bet × product(m_i, i=1..n)"
+  }
+}
