@@ -460,108 +460,43 @@
             background: linear-gradient(145deg, #1e1e3a, #14142a);
             border: 2px solid rgba(255, 255, 255, 0.1);
             box-shadow: inset 0 0 20px rgba(0, 232, 123, 0.05), 0 0 15px rgba(0, 0, 0, 0.4);
-            display: grid;
-            padding: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             backface-visibility: visible;
         }
 
-        .dice-face-1 {
-            grid-template: 1fr / 1fr;
+        .dice-face-num {
+            font-family: 'Syne', sans-serif;
+            font-size: 48px;
+            font-weight: 800;
+            color: #00e87b;
+            text-shadow: 0 0 12px rgba(0, 232, 123, 0.5);
+        }
+
+        .dice-face-front {
             transform: rotateY(0deg) translateZ(60px);
         }
 
-        .dice-face-2 {
-            grid-template: 1fr 1fr / 1fr;
+        .dice-face-back {
             transform: rotateY(180deg) translateZ(60px);
         }
 
-        .dice-face-3 {
-            grid-template: 1fr 1fr 1fr / 1fr;
+        .dice-face-left {
             transform: rotateY(-90deg) translateZ(60px);
         }
 
-        .dice-face-4 {
-            grid-template: 1fr 1fr / 1fr 1fr;
+        .dice-face-right {
             transform: rotateY(90deg) translateZ(60px);
         }
 
-        .dice-face-5 {
-            grid-template: "a . b" 1fr "c d e" 0 "f . g" 1fr / 1fr 1fr 1fr;
+        .dice-face-top {
             transform: rotateX(90deg) translateZ(60px);
         }
 
-        .dice-face-6 {
-            grid-template: 1fr 1fr 1fr / 1fr 1fr;
+        .dice-face-bottom {
             transform: rotateX(-90deg) translateZ(60px);
         }
-
-        .dice-dot {
-            width: 18px;
-            height: 18px;
-            background: radial-gradient(circle, #00e87b, #00c868);
-            border-radius: 50%;
-            box-shadow: 0 0 8px rgba(0, 232, 123, 0.6), 0 0 20px rgba(0, 232, 123, 0.2);
-            place-self: center;
-        }
-
-        /* Face 1: single center dot */
-        .dice-face-1 .dice-dot {
-            place-self: center;
-        }
-
-        /* Face 2: top-right, bottom-left */
-        .dice-face-2 .dice-dot:nth-child(1) {
-            place-self: start end;
-        }
-
-        .dice-face-2 .dice-dot:nth-child(2) {
-            place-self: end start;
-        }
-
-        /* Face 3: diagonal */
-        .dice-face-3 .dice-dot:nth-child(1) {
-            place-self: start end;
-        }
-
-        .dice-face-3 .dice-dot:nth-child(2) {
-            place-self: center;
-        }
-
-        .dice-face-3 .dice-dot:nth-child(3) {
-            place-self: end start;
-        }
-
-        /* Face 4: corners */
-        /* Uses 2x2 grid naturally */
-
-        /* Face 5: special grid areas */
-        .dice-face-5 .dice-dot:nth-child(1) {
-            grid-area: a;
-            place-self: center;
-        }
-
-        .dice-face-5 .dice-dot:nth-child(2) {
-            grid-area: b;
-            place-self: center;
-        }
-
-        .dice-face-5 .dice-dot:nth-child(3) {
-            grid-area: d;
-            place-self: center;
-        }
-
-        .dice-face-5 .dice-dot:nth-child(4) {
-            grid-area: f;
-            place-self: center;
-        }
-
-        .dice-face-5 .dice-dot:nth-child(5) {
-            grid-area: g;
-            place-self: center;
-        }
-
-        /* Face 6: 3x2 grid */
-        /* Uses natural grid flow */
 
         .dice-result-number {
             text-align: center;
@@ -580,6 +515,71 @@
 
         .dice-result-number.visible {
             opacity: 1;
+        }
+
+        /* Faces selector */
+        .dice-faces-selector {
+            margin: 20px 0;
+        }
+
+        .dice-faces-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .dice-faces-value {
+            color: var(--accent);
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+        }
+
+        /* Face Picker Grid */
+        .face-picker {
+            margin: 16px 0;
+        }
+
+        .face-picker-label {
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .face-picker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
+            gap: 8px;
+        }
+
+        .face-pick-btn {
+            padding: 12px 8px;
+            background: var(--bg-glass);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .face-pick-btn:hover {
+            border-color: rgba(0, 232, 123, 0.4);
+            background: rgba(0, 232, 123, 0.08);
+        }
+
+        .face-pick-btn.selected {
+            border-color: var(--accent);
+            background: rgba(0, 232, 123, 0.15);
+            color: var(--accent);
+            box-shadow: 0 0 16px rgba(0, 232, 123, 0.2);
         }
 
         /* Dice Slider */
@@ -1475,61 +1475,41 @@
                 <!-- 3D Dice Cube -->
                 <div class="dice-scene">
                     <div class="dice-cube" id="diceCube">
-                        <!-- Face 1 -->
-                        <div class="dice-face dice-face-1">
-                            <div class="dice-dot"></div>
+                        <div class="dice-face dice-face-front"><span class="dice-face-num" id="diceFaceFront">?</span>
                         </div>
-                        <!-- Face 2 -->
-                        <div class="dice-face dice-face-2">
-                            <div class="dice-dot"></div>
-                            <div class="dice-dot"></div>
+                        <div class="dice-face dice-face-back"><span class="dice-face-num" id="diceFaceBack">?</span>
                         </div>
-                        <!-- Face 3 -->
-                        <div class="dice-face dice-face-3">
-                            <div class="dice-dot"></div>
-                            <div class="dice-dot"></div>
-                            <div class="dice-dot"></div>
+                        <div class="dice-face dice-face-left"><span class="dice-face-num" id="diceFaceLeft">?</span>
                         </div>
-                        <!-- Face 4 -->
-                        <div class="dice-face dice-face-4">
-                            <div class="dice-dot"></div>
-                            <div class="dice-dot"></div>
-                            <div class="dice-dot"></div>
-                            <div class="dice-dot"></div>
+                        <div class="dice-face dice-face-right"><span class="dice-face-num" id="diceFaceRight">?</span>
                         </div>
-                        <!-- Face 5 -->
-                        <div class="dice-face dice-face-5">
-                            <div class="dice-dot"></div>
-                            <div class="dice-dot"></div>
-                            <div class="dice-dot"></div>
-                            <div class="dice-dot"></div>
-                            <div class="dice-dot"></div>
-                        </div>
-                        <!-- Face 6 -->
-                        <div class="dice-face dice-face-6">
-                            <div class="dice-dot"></div>
-                            <div class="dice-dot"></div>
-                            <div class="dice-dot"></div>
-                            <div class="dice-dot"></div>
-                            <div class="dice-dot"></div>
-                            <div class="dice-dot"></div>
+                        <div class="dice-face dice-face-top"><span class="dice-face-num" id="diceFaceTop">?</span></div>
+                        <div class="dice-face dice-face-bottom"><span class="dice-face-num" id="diceFaceBottom">?</span>
                         </div>
                     </div>
                 </div>
                 <div class="dice-result-number" id="diceResultNumber"></div>
 
-                <div class="chance-slider-container">
-                    <div class="chance-label">
-                        <span data-en="Win Chance" data-ru="Шанс выигрыша">Win Chance</span>
-                        <span id="diceChance" style="color: var(--accent);">50%</span>
+                <!-- Number of Faces Selector -->
+                <div class="dice-faces-selector">
+                    <div class="dice-faces-label">
+                        <span data-en="Number of Faces" data-ru="Количество граней">Number of Faces</span>
+                        <span class="dice-faces-value" id="diceFacesValue">6</span>
                     </div>
-                    <input type="range" min="1" max="95" value="50" class="chance-slider" id="diceSlider"
-                        oninput="updateDiceChance()">
+                    <input type="range" min="2" max="12" value="6" class="chance-slider" id="diceFacesSlider"
+                        oninput="updateDiceFaces()">
                 </div>
 
                 <div class="multiplier-display">
                     <div class="multiplier-label" data-en="Multiplier" data-ru="Множитель">Multiplier</div>
-                    <div class="multiplier-value" id="diceMultiplier">1.94x</div>
+                    <div class="multiplier-value" id="diceMultiplier">5.70x</div>
+                </div>
+
+                <!-- Face Picker -->
+                <div class="face-picker">
+                    <div class="face-picker-label" data-en="Pick Your Number" data-ru="Выберите число">Pick Your Number
+                    </div>
+                    <div class="face-picker-grid" id="facePickerGrid"></div>
                 </div>
 
                 <div class="bet-controls">
@@ -2087,21 +2067,65 @@
         }
 
         // Dice game
-        function updateDiceChance() {
-            const chance = document.getElementById('diceSlider').value;
-            document.getElementById('diceChance').textContent = chance + '%';
+        let diceFaces = 6;
+        let dicePickedNumber = null;
+        let diceRolling = false;
 
-            const multiplier = (100 / chance) * 0.97;
+        function updateDiceFaces() {
+            diceFaces = parseInt(document.getElementById('diceFacesSlider').value);
+            document.getElementById('diceFacesValue').textContent = diceFaces;
+
+            // Multiplier = faces (100% RTP — no house edge)
+            const multiplier = diceFaces;
             document.getElementById('diceMultiplier').textContent = multiplier.toFixed(2) + 'x';
+
+            // Rebuild the face picker buttons
+            buildFacePicker();
+
+            // Reset cube face numbers
+            updateCubeFaceNumbers();
         }
 
-        let diceRolling = false;
+        function buildFacePicker() {
+            const grid = document.getElementById('facePickerGrid');
+            grid.innerHTML = '';
+            dicePickedNumber = null;
+
+            for (let i = 1; i <= diceFaces; i++) {
+                const btn = document.createElement('button');
+                btn.className = 'face-pick-btn';
+                btn.textContent = i;
+                btn.onclick = () => selectDiceFace(i);
+                grid.appendChild(btn);
+            }
+        }
+
+        function selectDiceFace(num) {
+            if (diceRolling) return;
+            dicePickedNumber = num;
+            const buttons = document.querySelectorAll('.face-pick-btn');
+            buttons.forEach(btn => {
+                btn.classList.toggle('selected', parseInt(btn.textContent) === num);
+            });
+        }
+
+        function updateCubeFaceNumbers() {
+            // Put random numbers from the dice range on each cube face
+            const ids = ['diceFaceFront', 'diceFaceBack', 'diceFaceLeft', 'diceFaceRight', 'diceFaceTop', 'diceFaceBottom'];
+            ids.forEach(id => {
+                document.getElementById(id).textContent = Math.floor(Math.random() * diceFaces) + 1;
+            });
+        }
 
         function playDice() {
             if (diceRolling) return;
 
+            if (dicePickedNumber === null) {
+                alert('Pick a number first!');
+                return;
+            }
+
             const betAmount = parseFloat(document.getElementById('diceBet').value);
-            const chance = parseInt(document.getElementById('diceSlider').value);
 
             if (betAmount > balance) {
                 alert('Insufficient balance!');
@@ -2112,12 +2136,29 @@
             balance -= betAmount;
             updateBalance();
 
-            const roll = Math.random() * 100;
-            // Rigged: Real chance is displayed chance - 5%
-            const win = roll < (chance - 5);
+            // Roll a random number from 1 to diceFaces
+            // Rigged: slight bias — 10% chance the winning number is excluded
+            let rolledNumber;
+            if (Math.random() < 0.10) {
+                // Force a losing roll
+                const losers = [];
+                for (let i = 1; i <= diceFaces; i++) {
+                    if (i !== dicePickedNumber) losers.push(i);
+                }
+                rolledNumber = losers.length > 0 ? losers[Math.floor(Math.random() * losers.length)] : dicePickedNumber;
+            } else {
+                rolledNumber = Math.floor(Math.random() * diceFaces) + 1;
+            }
 
-            // Generate a visual dice face (1-6)
-            const diceNumber = Math.floor(Math.random() * 6) + 1;
+            const win = (rolledNumber === dicePickedNumber);
+
+            // Set random numbers on all 6 cube faces, but put the result on the front face
+            const faceIds = ['diceFaceFront', 'diceFaceBack', 'diceFaceLeft', 'diceFaceRight', 'diceFaceTop', 'diceFaceBottom'];
+            faceIds.forEach(id => {
+                document.getElementById(id).textContent = Math.floor(Math.random() * diceFaces) + 1;
+            });
+            // The front face shows the result
+            document.getElementById('diceFaceFront').textContent = rolledNumber;
 
             // Animate the cube
             const cube = document.getElementById('diceCube');
@@ -2125,17 +2166,10 @@
             resultDisplay.classList.remove('visible');
             resultDisplay.textContent = '';
 
-            // Rotation transforms to show each face on top
-            const faceTransforms = {
-                1: 'rotateX(0deg) rotateY(0deg)',
-                2: 'rotateX(0deg) rotateY(180deg)',
-                3: 'rotateX(0deg) rotateY(90deg)',
-                4: 'rotateX(0deg) rotateY(-90deg)',
-                5: 'rotateX(-90deg) rotateY(0deg)',
-                6: 'rotateX(90deg) rotateY(0deg)'
-            };
+            // Always land on front face
+            const finalTransform = 'rotateX(0deg) rotateY(0deg)';
 
-            cube.style.setProperty('--dice-final-transform', faceTransforms[diceNumber]);
+            cube.style.setProperty('--dice-final-transform', finalTransform);
             cube.classList.remove('rolling');
             void cube.offsetWidth; // force reflow
             cube.classList.add('rolling');
@@ -2143,14 +2177,14 @@
             // Stage 1: Cube stops, show the rolled number
             setTimeout(() => {
                 cube.classList.remove('rolling');
-                cube.style.transform = faceTransforms[diceNumber];
-                resultDisplay.textContent = 'Rolled: ' + diceNumber;
+                cube.style.transform = finalTransform;
+                resultDisplay.textContent = 'Rolled: ' + rolledNumber;
                 resultDisplay.classList.add('visible');
 
                 // Stage 2: After a pause, show the win/loss notification
                 setTimeout(() => {
                     if (win) {
-                        const multiplier = (100 / chance) * 0.97;
+                        const multiplier = diceFaces;
                         const winAmount = betAmount * multiplier;
                         balance += winAmount;
                         showResult(true, winAmount - betAmount);
@@ -3416,7 +3450,7 @@
 
         // Initialize display
         initBombGrid();
-        updateDiceChance();
+        updateDiceFaces();
         updateBalance();
     </script>
 </body>
