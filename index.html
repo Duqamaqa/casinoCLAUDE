@@ -1036,6 +1036,456 @@
         .close-result-button:hover {
             transform: translateY(-2px);
         }
+
+        /* Mersion Game */
+        .mersion-map-container {
+            position: relative;
+            background: linear-gradient(180deg, #0a4a7a 0%, #063356 20%, #042440 40%, #021a30 60%, #010d1a 80%, #050510 100%);
+            border-radius: 20px;
+            padding: 20px 12px;
+            margin-bottom: 20px;
+            min-height: 420px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 180, 255, 0.15);
+        }
+
+        .mersion-map-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 40px,
+                    rgba(255, 255, 255, 0.02) 40px,
+                    rgba(255, 255, 255, 0.02) 41px);
+            pointer-events: none;
+        }
+
+        .mersion-depth-label {
+            position: absolute;
+            right: 8px;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.25);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .mersion-depth-line {
+            position: absolute;
+            left: 50%;
+            top: 30px;
+            bottom: 30px;
+            width: 2px;
+            background: linear-gradient(180deg,
+                    rgba(0, 200, 255, 0.4),
+                    rgba(0, 150, 255, 0.2),
+                    rgba(100, 0, 255, 0.15),
+                    rgba(255, 50, 0, 0.2));
+            transform: translateX(-50%);
+        }
+
+        .mersion-stations {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 2;
+        }
+
+        .mersion-station {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            position: relative;
+        }
+
+        .mersion-station:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(0, 200, 255, 0.3);
+            transform: translateX(4px);
+        }
+
+        .mersion-station.selected {
+            background: rgba(0, 200, 255, 0.1);
+            border-color: rgba(0, 200, 255, 0.5);
+            box-shadow: 0 0 20px rgba(0, 200, 255, 0.15), inset 0 0 20px rgba(0, 200, 255, 0.05);
+        }
+
+        .mersion-station-icon {
+            font-size: 28px;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+
+        .mersion-station-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .mersion-station-name {
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 2px;
+            color: var(--text-primary);
+        }
+
+        .mersion-station-depth {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 500;
+        }
+
+        .mersion-station-mult {
+            font-family: 'Syne', sans-serif;
+            font-size: 13px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            white-space: nowrap;
+        }
+
+        .mersion-station:nth-child(1) .mersion-station-mult {
+            color: #4dd9ff;
+        }
+
+        .mersion-station:nth-child(2) .mersion-station-mult {
+            color: #38c9a8;
+        }
+
+        .mersion-station:nth-child(3) .mersion-station-mult {
+            color: #ffb830;
+        }
+
+        .mersion-station:nth-child(4) .mersion-station-mult {
+            color: #ff6b6b;
+        }
+
+        .mersion-station:nth-child(5) .mersion-station-mult {
+            color: #ff4444;
+        }
+
+        .mersion-risk-bar {
+            height: 3px;
+            border-radius: 2px;
+            margin-top: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        .mersion-risk-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.3s;
+        }
+
+        .mersion-view-map-btn {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 200, 255, 0.08);
+            border: 1px solid rgba(0, 200, 255, 0.25);
+            border-radius: 12px;
+            color: #4dd9ff;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.25s;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .mersion-view-map-btn:hover {
+            background: rgba(0, 200, 255, 0.15);
+        }
+
+        /* Full Map Overlay */
+        .mersion-fullmap-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(2, 8, 18, 0.96);
+            backdrop-filter: blur(16px);
+            z-index: 999;
+            overflow-y: auto;
+            padding: 20px;
+            animation: screenIn 0.35s;
+        }
+
+        .mersion-fullmap-overlay.active {
+            display: block;
+        }
+
+        .mersion-fullmap-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .mersion-fullmap-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #4dd9ff, #0099cc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .mersion-fullmap-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .mersion-fullmap-close:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .mersion-fullmap-station {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .mersion-fullmap-station-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .mersion-fullmap-station-icon {
+            font-size: 32px;
+        }
+
+        .mersion-fullmap-station-title {
+            font-weight: 800;
+            font-size: 16px;
+        }
+
+        .mersion-fullmap-station-depth-tag {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 600;
+        }
+
+        .mersion-fish-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .mersion-fish-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .mersion-fish-emoji {
+            font-size: 20px;
+        }
+
+        .mersion-fish-info {
+            flex: 1;
+        }
+
+        .mersion-fish-name {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .mersion-fish-mult {
+            font-size: 13px;
+            font-weight: 800;
+            font-family: 'Syne', sans-serif;
+        }
+
+        .mersion-fish-mult.danger {
+            color: #ff4444;
+        }
+
+        .mersion-fish-mult.risky {
+            color: #ff8c42;
+        }
+
+        .mersion-fish-mult.neutral {
+            color: #ffcc00;
+        }
+
+        .mersion-fish-mult.safe {
+            color: #4dd9ff;
+        }
+
+        .mersion-fish-mult.great {
+            color: #00e87b;
+        }
+
+        /* Submarine Animation */
+        .mersion-dive-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, #0a4a7a 0%, #042440 30%, #010d1a 70%, #050510 100%);
+            z-index: 998;
+            overflow: hidden;
+        }
+
+        .mersion-dive-overlay.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mersion-submarine {
+            font-size: 56px;
+            animation: submarineDive 2.5s ease-in-out;
+            position: relative;
+        }
+
+        .mersion-dive-depth {
+            font-family: 'Syne', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            color: rgba(0, 200, 255, 0.7);
+            margin-top: 16px;
+            animation: depthCount 2.5s ease-in-out;
+        }
+
+        .mersion-bubbles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .mersion-bubble {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: rgba(150, 220, 255, 0.3);
+            border-radius: 50%;
+            animation: bubbleRise 2s ease-out infinite;
+        }
+
+        @keyframes submarineDive {
+            0% {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+
+            15% {
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateY(0px);
+            }
+
+            100% {
+                transform: translateY(120px);
+                opacity: 0.3;
+            }
+        }
+
+        @keyframes depthCount {
+            0% {
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 1;
+            }
+
+            80% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes bubbleRise {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: translateY(-200px) scale(0.3);
+                opacity: 0;
+            }
+        }
+
+        .mersion-encounter {
+            text-align: center;
+            animation: screenIn 0.5s;
+        }
+
+        .mersion-encounter-fish {
+            font-size: 72px;
+            margin-bottom: 8px;
+        }
+
+        .mersion-encounter-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+
+        .mersion-encounter-mult {
+            font-family: 'Syne', sans-serif;
+            font-size: 36px;
+            font-weight: 800;
+        }
     </style>
 </head>
 
@@ -1095,6 +1545,10 @@
                     <div class="game-icon">💣</div>
                     <div class="game-name" data-en="Mines" data-ru="Мины">Mines</div>
                 </div>
+                <div class="game-card" onclick="showGame('mersion')">
+                    <div class="game-icon">🤿</div>
+                    <div class="game-name" data-en="Mersion" data-ru="Мершн">Mersion</div>
+                </div>
             </div>
         </div>
 
@@ -1117,6 +1571,10 @@
                 <div class="game-card" onclick="showGame('bombyard')">
                     <div class="game-icon">💣</div>
                     <div class="game-name" data-en="Mines" data-ru="Мины">Mines</div>
+                </div>
+                <div class="game-card" onclick="showGame('mersion')">
+                    <div class="game-icon">🤿</div>
+                    <div class="game-name" data-en="Mersion" data-ru="Мершн">Mersion</div>
                 </div>
             </div>
         </div>
@@ -1330,6 +1788,130 @@
                         data-ru="Начать">Start Game</button>
                 </div>
             </div>
+        </div>
+
+        <!-- Mersion Game -->
+        <div id="mersionGame" class="screen">
+            <div class="game-container">
+                <div class="game-header">
+                    <button class="back-button" onclick="showScreen('gamesScreen')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 12H5"></path>
+                            <path d="M12 19l-7-7 7-7"></path>
+                        </svg>
+                    </button>
+                    <h2 class="game-title" data-en="Mersion" data-ru="Мершн">Mersion</h2>
+                    <div style="width: 32px;"></div>
+                </div>
+
+                <button class="mersion-view-map-btn" onclick="toggleMersionMap()">
+                    🗺️ <span data-en="View Full Map" data-ru="Полная карта">View Full Map</span>
+                </button>
+
+                <div class="mersion-map-container">
+                    <div class="mersion-stations" id="mersionStations">
+                        <div class="mersion-station" onclick="selectStation(0)">
+                            <div class="mersion-station-icon">🏝️</div>
+                            <div class="mersion-station-info">
+                                <div class="mersion-station-name" data-en="Shallow Reef" data-ru="Мелкий риф">Shallow
+                                    Reef</div>
+                                <div class="mersion-station-depth">50m depth</div>
+                                <div class="mersion-risk-bar">
+                                    <div class="mersion-risk-fill" style="width: 20%; background: #4dd9ff;"></div>
+                                </div>
+                            </div>
+                            <div class="mersion-station-mult">x0.5–x1.5</div>
+                        </div>
+                        <div class="mersion-station" onclick="selectStation(1)">
+                            <div class="mersion-station-icon">🐠</div>
+                            <div class="mersion-station-info">
+                                <div class="mersion-station-name" data-en="Coral Gardens" data-ru="Коралловые сады">
+                                    Coral Gardens</div>
+                                <div class="mersion-station-depth">200m depth</div>
+                                <div class="mersion-risk-bar">
+                                    <div class="mersion-risk-fill" style="width: 40%; background: #38c9a8;"></div>
+                                </div>
+                            </div>
+                            <div class="mersion-station-mult">x0.3–x2.0</div>
+                        </div>
+                        <div class="mersion-station" onclick="selectStation(2)">
+                            <div class="mersion-station-icon">🦈</div>
+                            <div class="mersion-station-info">
+                                <div class="mersion-station-name" data-en="Open Ocean" data-ru="Открытый океан">Open
+                                    Ocean</div>
+                                <div class="mersion-station-depth">500m depth</div>
+                                <div class="mersion-risk-bar">
+                                    <div class="mersion-risk-fill" style="width: 60%; background: #ffb830;"></div>
+                                </div>
+                            </div>
+                            <div class="mersion-station-mult">x0.2–x2.5</div>
+                        </div>
+                        <div class="mersion-station" onclick="selectStation(3)">
+                            <div class="mersion-station-icon">🐙</div>
+                            <div class="mersion-station-info">
+                                <div class="mersion-station-name" data-en="Deep Trench" data-ru="Глубокая впадина">Deep
+                                    Trench</div>
+                                <div class="mersion-station-depth">1000m depth</div>
+                                <div class="mersion-risk-bar">
+                                    <div class="mersion-risk-fill" style="width: 80%; background: #ff6b6b;"></div>
+                                </div>
+                            </div>
+                            <div class="mersion-station-mult">x0.2–x3.0</div>
+                        </div>
+                        <div class="mersion-station" onclick="selectStation(4)">
+                            <div class="mersion-station-icon">🌋</div>
+                            <div class="mersion-station-info">
+                                <div class="mersion-station-name" data-en="The Abyss" data-ru="Бездна">The Abyss</div>
+                                <div class="mersion-station-depth">2000m depth</div>
+                                <div class="mersion-risk-bar">
+                                    <div class="mersion-risk-fill"
+                                        style="width: 100%; background: linear-gradient(90deg, #ff4444, #ff0000);">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mersion-station-mult">x0.2–x4.0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bet-controls">
+                    <div class="bet-input-group">
+                        <label class="bet-label" data-en="Bet Amount" data-ru="Сумма ставки">Bet Amount</label>
+                        <input type="number" class="bet-input" id="mersionBet" value="1000" min="1">
+                    </div>
+                    <div class="quick-bets">
+                        <button class="quick-bet-button"
+                            onclick="document.getElementById('mersionBet').value = 1000">1K</button>
+                        <button class="quick-bet-button"
+                            onclick="document.getElementById('mersionBet').value = 5000">5K</button>
+                        <button class="quick-bet-button"
+                            onclick="document.getElementById('mersionBet').value = 10000">10K</button>
+                        <button class="quick-bet-button"
+                            onclick="document.getElementById('mersionBet').value = 50000">50K</button>
+                    </div>
+                    <button class="play-button" id="mersionDiveBtn" onclick="playMersion()" data-en="🤿 Dive Down"
+                        data-ru="🤿 Погружение">🤿 Dive Down</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mersion Full Map Overlay -->
+        <div class="mersion-fullmap-overlay" id="mersionFullMap">
+            <div style="max-width: 480px; margin: 0 auto;">
+                <div class="mersion-fullmap-header">
+                    <div class="mersion-fullmap-title">🗺️ Ocean Depth Map</div>
+                    <button class="mersion-fullmap-close" onclick="toggleMersionMap()">✕</button>
+                </div>
+                <div id="mersionFullMapContent"></div>
+            </div>
+        </div>
+
+        <!-- Mersion Dive Animation Overlay -->
+        <div class="mersion-dive-overlay" id="mersionDiveOverlay">
+            <div class="mersion-bubbles" id="mersionBubbles"></div>
+            <div class="mersion-submarine" id="mersionSub">🛟</div>
+            <div class="mersion-dive-depth" id="mersionDiveDepth">0m</div>
         </div>
 
         <!-- Wallet Screen -->
@@ -1573,7 +2155,8 @@
                 'dice': 'diceGame',
                 'coinflip': 'coinflipGame',
                 'roulette': 'rouletteGame',
-                'bombyard': 'bombyardGame'
+                'bombyard': 'bombyardGame',
+                'mersion': 'mersionGame'
             };
             showScreen(gameMap[gameId]);
         }
@@ -1947,6 +2530,224 @@
             navigator.clipboard.writeText(code).then(() => {
                 alert(currentLanguage === 'en' ? 'Referral link copied!' : 'Реферальная ссылка скопирована!');
             });
+        }
+
+        // Mersion Game
+        let selectedStation = null;
+
+        const mersionStations = [
+            {
+                name: 'Shallow Reef', depth: 50, icon: '🏝️',
+                fish: [
+                    { emoji: '🐟', name: 'Clownfish', mult: 0.5, class: 'risky' },
+                    { emoji: '🦀', name: 'Crab', mult: 0.8, class: 'neutral' },
+                    { emoji: '🐚', name: 'Pearl Shell', mult: 1.0, class: 'safe' },
+                    { emoji: '🦐', name: 'Shrimp', mult: 1.2, class: 'safe' },
+                    { emoji: '🐡', name: 'Pufferfish', mult: 1.5, class: 'great' }
+                ]
+            },
+            {
+                name: 'Coral Gardens', depth: 200, icon: '🐠',
+                fish: [
+                    { emoji: '🪼', name: 'Jellyfish', mult: 0.3, class: 'danger' },
+                    { emoji: '🐠', name: 'Angelfish', mult: 0.6, class: 'risky' },
+                    { emoji: '🦑', name: 'Squid', mult: 1.0, class: 'safe' },
+                    { emoji: '🐢', name: 'Sea Turtle', mult: 1.5, class: 'great' },
+                    { emoji: '🦞', name: 'Lobster', mult: 2.0, class: 'great' }
+                ]
+            },
+            {
+                name: 'Open Ocean', depth: 500, icon: '🦈',
+                fish: [
+                    { emoji: '🪸', name: 'Poison Coral', mult: 0.2, class: 'danger' },
+                    { emoji: '🦈', name: 'Shark', mult: 0.5, class: 'risky' },
+                    { emoji: '🐬', name: 'Dolphin', mult: 1.2, class: 'safe' },
+                    { emoji: '🐳', name: 'Whale', mult: 2.0, class: 'great' },
+                    { emoji: '🧜', name: 'Mermaid', mult: 2.5, class: 'great' }
+                ]
+            },
+            {
+                name: 'Deep Trench', depth: 1000, icon: '🐙',
+                fish: [
+                    { emoji: '🦠', name: 'Toxic Blob', mult: 0.2, class: 'danger' },
+                    { emoji: '🐙', name: 'Giant Octopus', mult: 0.4, class: 'danger' },
+                    { emoji: '🫧', name: 'Deep Bubble', mult: 0.8, class: 'neutral' },
+                    { emoji: '💎', name: 'Deep Gem', mult: 2.0, class: 'great' },
+                    { emoji: '🧿', name: 'Abyssal Eye', mult: 3.0, class: 'great' }
+                ]
+            },
+            {
+                name: 'The Abyss', depth: 2000, icon: '🌋',
+                fish: [
+                    { emoji: '☠️', name: 'Death Eel', mult: 0.2, class: 'danger' },
+                    { emoji: '🕳️', name: 'Void Fish', mult: 0.2, class: 'danger' },
+                    { emoji: '🔮', name: 'Crystal Angler', mult: 0.5, class: 'risky' },
+                    { emoji: '🐉', name: 'Sea Dragon', mult: 3.0, class: 'great' },
+                    { emoji: '👑', name: 'Leviathan', mult: 4.0, class: 'great' }
+                ]
+            }
+        ];
+
+        function selectStation(index) {
+            selectedStation = index;
+            const stations = document.querySelectorAll('.mersion-station');
+            stations.forEach((s, i) => {
+                s.classList.toggle('selected', i === index);
+            });
+        }
+
+        function toggleMersionMap() {
+            const overlay = document.getElementById('mersionFullMap');
+            const isActive = overlay.classList.contains('active');
+
+            if (!isActive) {
+                // Build full map content
+                const content = document.getElementById('mersionFullMapContent');
+                content.innerHTML = '';
+
+                mersionStations.forEach((station, si) => {
+                    const card = document.createElement('div');
+                    card.className = 'mersion-fullmap-station';
+
+                    let fishHTML = '';
+                    station.fish.forEach(f => {
+                        fishHTML += `
+                            <div class="mersion-fish-item">
+                                <div class="mersion-fish-emoji">${f.emoji}</div>
+                                <div class="mersion-fish-info">
+                                    <div class="mersion-fish-name">${f.name}</div>
+                                    <div class="mersion-fish-mult ${f.class}">x${f.mult.toFixed(1)}</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    card.innerHTML = `
+                        <div class="mersion-fullmap-station-header">
+                            <div class="mersion-fullmap-station-icon">${station.icon}</div>
+                            <div>
+                                <div class="mersion-fullmap-station-title">${station.name}</div>
+                                <div class="mersion-fullmap-station-depth-tag">${station.depth}m depth · Risk Level ${si + 1}/5</div>
+                            </div>
+                        </div>
+                        <div class="mersion-fish-list">${fishHTML}</div>
+                    `;
+                    content.appendChild(card);
+                });
+            }
+
+            overlay.classList.toggle('active');
+        }
+
+        function playMersion() {
+            if (selectedStation === null) {
+                alert(currentLanguage === 'en' ? 'Select a station on the map!' : 'Выберите станцию на карте!');
+                return;
+            }
+
+            const betAmount = parseFloat(document.getElementById('mersionBet').value);
+            if (betAmount > balance) {
+                alert(currentLanguage === 'en' ? 'Insufficient balance!' : 'Недостаточно средств!');
+                return;
+            }
+
+            balance -= betAmount;
+            updateBalance();
+
+            const station = mersionStations[selectedStation];
+            const diveBtn = document.getElementById('mersionDiveBtn');
+            diveBtn.disabled = true;
+
+            // Show dive animation
+            const overlay = document.getElementById('mersionDiveOverlay');
+            const depthEl = document.getElementById('mersionDiveDepth');
+            const subEl = document.getElementById('mersionSub');
+
+            overlay.classList.add('active');
+            subEl.style.animation = 'none';
+            void subEl.offsetWidth;
+            subEl.style.animation = 'submarineDive 2.5s ease-in-out';
+
+            // Create bubbles
+            const bubblesContainer = document.getElementById('mersionBubbles');
+            bubblesContainer.innerHTML = '';
+            for (let i = 0; i < 15; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'mersion-bubble';
+                bubble.style.left = Math.random() * 100 + '%';
+                bubble.style.bottom = Math.random() * 30 + '%';
+                bubble.style.animationDelay = Math.random() * 2 + 's';
+                bubble.style.width = (4 + Math.random() * 8) + 'px';
+                bubble.style.height = bubble.style.width;
+                bubblesContainer.appendChild(bubble);
+            }
+
+            // Animate depth counter
+            let currentDepth = 0;
+            const targetDepth = station.depth;
+            const depthInterval = setInterval(() => {
+                currentDepth += Math.ceil(targetDepth / 50);
+                if (currentDepth >= targetDepth) {
+                    currentDepth = targetDepth;
+                    clearInterval(depthInterval);
+                }
+                depthEl.textContent = currentDepth + 'm';
+            }, 50);
+
+            // After dive animation, pick a fish
+            setTimeout(() => {
+                overlay.classList.remove('active');
+
+                // Rigged: Shift probability toward lower multiplier fish
+                // Weight: first fish (lowest) gets highest weight
+                const weights = [35, 25, 20, 12, 8]; // heavier on low mult
+                const totalWeight = weights.reduce((a, b) => a + b, 0);
+                let rand = Math.random() * totalWeight;
+                let fishIndex = 0;
+                for (let i = 0; i < weights.length; i++) {
+                    rand -= weights[i];
+                    if (rand <= 0) {
+                        fishIndex = i;
+                        break;
+                    }
+                }
+
+                const fish = station.fish[fishIndex];
+                const winAmount = betAmount * fish.mult;
+                balance += winAmount;
+                updateBalance();
+
+                const profit = winAmount - betAmount;
+                const isWin = profit > 0;
+
+                // Show custom result with fish info
+                const modal = document.getElementById('resultModal');
+                const emoji = document.getElementById('resultEmoji');
+                const title = document.getElementById('resultTitle');
+                const amountEl = document.getElementById('resultAmount');
+
+                emoji.textContent = fish.emoji;
+
+                if (isWin) {
+                    title.textContent = (currentLanguage === 'en' ? 'Caught: ' : 'Поймано: ') + fish.name + ' (x' + fish.mult.toFixed(1) + ')';
+                    amountEl.textContent = '+' + Math.ceil(profit) + ' 🪙';
+                    amountEl.className = 'result-amount win';
+                    addTransaction('Mersion', profit, 'win');
+                } else if (profit === 0) {
+                    title.textContent = (currentLanguage === 'en' ? 'Caught: ' : 'Поймано: ') + fish.name + ' (x' + fish.mult.toFixed(1) + ')';
+                    amountEl.textContent = '0 🪙';
+                    amountEl.className = 'result-amount';
+                    addTransaction('Mersion', 0, 'draw');
+                } else {
+                    title.textContent = (currentLanguage === 'en' ? 'Caught: ' : 'Поймано: ') + fish.name + ' (x' + fish.mult.toFixed(1) + ')';
+                    amountEl.textContent = Math.ceil(profit) + ' 🪙';
+                    amountEl.className = 'result-amount lose';
+                    addTransaction('Mersion', profit, 'loss');
+                }
+
+                modal.classList.add('active');
+                diveBtn.disabled = false;
+            }, 3000);
         }
 
         // Initialize display
