@@ -401,6 +401,187 @@
             font-weight: 700;
         }
 
+        /* 3D Dice Cube */
+        .dice-scene {
+            width: 120px;
+            height: 120px;
+            perspective: 600px;
+            margin: 24px auto;
+        }
+
+        .dice-cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateX(-25deg) rotateY(25deg);
+            transition: transform 0.15s ease-out;
+        }
+
+        .dice-cube.rolling {
+            animation: diceRoll 1.2s cubic-bezier(0.2, 0.8, 0.3, 1);
+        }
+
+        @keyframes diceRoll {
+            0% {
+                transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+            }
+
+            15% {
+                transform: rotateX(200deg) rotateY(130deg) rotateZ(80deg);
+            }
+
+            30% {
+                transform: rotateX(400deg) rotateY(270deg) rotateZ(160deg);
+            }
+
+            50% {
+                transform: rotateX(620deg) rotateY(450deg) rotateZ(250deg);
+            }
+
+            70% {
+                transform: rotateX(810deg) rotateY(580deg) rotateZ(310deg);
+            }
+
+            85% {
+                transform: rotateX(940deg) rotateY(680deg) rotateZ(350deg);
+            }
+
+            100% {
+                transform: var(--dice-final-transform);
+            }
+        }
+
+        .dice-face {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 16px;
+            background: linear-gradient(145deg, #1e1e3a, #14142a);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 0 20px rgba(0, 232, 123, 0.05), 0 0 15px rgba(0, 0, 0, 0.4);
+            display: grid;
+            padding: 18px;
+            backface-visibility: visible;
+        }
+
+        .dice-face-1 {
+            grid-template: 1fr / 1fr;
+            transform: rotateY(0deg) translateZ(60px);
+        }
+
+        .dice-face-2 {
+            grid-template: 1fr 1fr / 1fr;
+            transform: rotateY(180deg) translateZ(60px);
+        }
+
+        .dice-face-3 {
+            grid-template: 1fr 1fr 1fr / 1fr;
+            transform: rotateY(-90deg) translateZ(60px);
+        }
+
+        .dice-face-4 {
+            grid-template: 1fr 1fr / 1fr 1fr;
+            transform: rotateY(90deg) translateZ(60px);
+        }
+
+        .dice-face-5 {
+            grid-template: "a . b" 1fr "c d e" 0 "f . g" 1fr / 1fr 1fr 1fr;
+            transform: rotateX(90deg) translateZ(60px);
+        }
+
+        .dice-face-6 {
+            grid-template: 1fr 1fr 1fr / 1fr 1fr;
+            transform: rotateX(-90deg) translateZ(60px);
+        }
+
+        .dice-dot {
+            width: 18px;
+            height: 18px;
+            background: radial-gradient(circle, #00e87b, #00c868);
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(0, 232, 123, 0.6), 0 0 20px rgba(0, 232, 123, 0.2);
+            place-self: center;
+        }
+
+        /* Face 1: single center dot */
+        .dice-face-1 .dice-dot {
+            place-self: center;
+        }
+
+        /* Face 2: top-right, bottom-left */
+        .dice-face-2 .dice-dot:nth-child(1) {
+            place-self: start end;
+        }
+
+        .dice-face-2 .dice-dot:nth-child(2) {
+            place-self: end start;
+        }
+
+        /* Face 3: diagonal */
+        .dice-face-3 .dice-dot:nth-child(1) {
+            place-self: start end;
+        }
+
+        .dice-face-3 .dice-dot:nth-child(2) {
+            place-self: center;
+        }
+
+        .dice-face-3 .dice-dot:nth-child(3) {
+            place-self: end start;
+        }
+
+        /* Face 4: corners */
+        /* Uses 2x2 grid naturally */
+
+        /* Face 5: special grid areas */
+        .dice-face-5 .dice-dot:nth-child(1) {
+            grid-area: a;
+            place-self: center;
+        }
+
+        .dice-face-5 .dice-dot:nth-child(2) {
+            grid-area: b;
+            place-self: center;
+        }
+
+        .dice-face-5 .dice-dot:nth-child(3) {
+            grid-area: d;
+            place-self: center;
+        }
+
+        .dice-face-5 .dice-dot:nth-child(4) {
+            grid-area: f;
+            place-self: center;
+        }
+
+        .dice-face-5 .dice-dot:nth-child(5) {
+            grid-area: g;
+            place-self: center;
+        }
+
+        /* Face 6: 3x2 grid */
+        /* Uses natural grid flow */
+
+        .dice-result-number {
+            text-align: center;
+            font-family: 'Syne', sans-serif;
+            font-size: 42px;
+            font-weight: 800;
+            margin: 8px 0 4px;
+            height: 52px;
+            background: linear-gradient(135deg, var(--accent), #fff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .dice-result-number.visible {
+            opacity: 1;
+        }
+
         /* Dice Slider */
         .chance-slider-container {
             margin: 28px 0;
@@ -1125,7 +1306,7 @@
             border-radius: 16px;
             overflow: hidden;
             margin-bottom: 10px;
-            border: 1px solid rgba(0,100,200,0.3);
+            border: 1px solid rgba(0, 100, 200, 0.3);
             background: #020a18;
         }
 
@@ -1137,7 +1318,7 @@
 
         .mersion-progress-bar {
             height: 6px;
-            background: rgba(255,255,255,0.06);
+            background: rgba(255, 255, 255, 0.06);
             border-radius: 3px;
             margin-bottom: 10px;
             overflow: hidden;
@@ -1165,13 +1346,22 @@
             justify-content: space-between;
             align-items: center;
             padding: 5px 4px;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
         }
 
-        .mersion-log-entry:last-child { border-bottom: none; }
+        .mersion-log-entry:last-child {
+            border-bottom: none;
+        }
 
-        .mersion-log-positive { color: var(--accent); font-weight: 700; }
-        .mersion-log-negative { color: var(--error); font-weight: 700; }
+        .mersion-log-positive {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .mersion-log-negative {
+            color: var(--error);
+            font-weight: 700;
+        }
     </style>
 </head>
 
@@ -1232,7 +1422,8 @@
                     <div class="game-name" data-en="Mines" data-ru="Мины">Mines</div>
                 </div>
                 <div class="game-card" onclick="showGame('mersion')" style="grid-column: 1 / -1;">
-                    <div class="game-icon" style="background: linear-gradient(135deg, rgba(0,100,200,0.4), rgba(0,232,123,0.2));">🐟</div>
+                    <div class="game-icon"
+                        style="background: linear-gradient(135deg, rgba(0,100,200,0.4), rgba(0,232,123,0.2));">🐟</div>
                     <div class="game-name" data-en="Mersion" data-ru="Мерсион">Mersion</div>
                 </div>
             </div>
@@ -1259,7 +1450,8 @@
                     <div class="game-name" data-en="Mines" data-ru="Мины">Mines</div>
                 </div>
                 <div class="game-card" onclick="showGame('mersion')" style="grid-column: 1 / -1;">
-                    <div class="game-icon" style="background: linear-gradient(135deg, rgba(0,100,200,0.4), rgba(0,232,123,0.2));">🐟</div>
+                    <div class="game-icon"
+                        style="background: linear-gradient(135deg, rgba(0,100,200,0.4), rgba(0,232,123,0.2));">🐟</div>
                     <div class="game-name" data-en="Mersion" data-ru="Мерсион">Mersion</div>
                 </div>
             </div>
@@ -1279,6 +1471,52 @@
                     <h2 class="game-title" data-en="Dice" data-ru="Кости">Dice</h2>
                     <div style="width: 32px;"></div>
                 </div>
+
+                <!-- 3D Dice Cube -->
+                <div class="dice-scene">
+                    <div class="dice-cube" id="diceCube">
+                        <!-- Face 1 -->
+                        <div class="dice-face dice-face-1">
+                            <div class="dice-dot"></div>
+                        </div>
+                        <!-- Face 2 -->
+                        <div class="dice-face dice-face-2">
+                            <div class="dice-dot"></div>
+                            <div class="dice-dot"></div>
+                        </div>
+                        <!-- Face 3 -->
+                        <div class="dice-face dice-face-3">
+                            <div class="dice-dot"></div>
+                            <div class="dice-dot"></div>
+                            <div class="dice-dot"></div>
+                        </div>
+                        <!-- Face 4 -->
+                        <div class="dice-face dice-face-4">
+                            <div class="dice-dot"></div>
+                            <div class="dice-dot"></div>
+                            <div class="dice-dot"></div>
+                            <div class="dice-dot"></div>
+                        </div>
+                        <!-- Face 5 -->
+                        <div class="dice-face dice-face-5">
+                            <div class="dice-dot"></div>
+                            <div class="dice-dot"></div>
+                            <div class="dice-dot"></div>
+                            <div class="dice-dot"></div>
+                            <div class="dice-dot"></div>
+                        </div>
+                        <!-- Face 6 -->
+                        <div class="dice-face dice-face-6">
+                            <div class="dice-dot"></div>
+                            <div class="dice-dot"></div>
+                            <div class="dice-dot"></div>
+                            <div class="dice-dot"></div>
+                            <div class="dice-dot"></div>
+                            <div class="dice-dot"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dice-result-number" id="diceResultNumber"></div>
 
                 <div class="chance-slider-container">
                     <div class="chance-label">
@@ -1494,34 +1732,43 @@
                 <!-- Setup Phase -->
                 <div id="mersionSetup">
                     <div style="text-align:center; font-size:48px; margin-bottom:8px;">🫧</div>
-                    <p style="color:var(--text-secondary); text-align:center; font-size:13px; margin-bottom:20px; line-height:1.5;" data-en="Load coins into your submarine. Choose a depth zone. Fish with multipliers swim around — when they hit your sub, your coins change. Deeper = more dangerous fish." data-ru="Загрузите монеты в субмарину. Выберите зону глубины. Рыбы с множителями плавают вокруг — при столкновении ваши монеты меняются. Глубже = опаснее.">Load coins into your submarine. Choose a depth zone. Fish with multipliers swim around — when they hit your sub, your coins change. Deeper = more dangerous fish.</p>
+                    <p style="color:var(--text-secondary); text-align:center; font-size:13px; margin-bottom:20px; line-height:1.5;"
+                        data-en="Load coins into your submarine. Choose a depth zone. Fish with multipliers swim around — when they hit your sub, your coins change. Deeper = more dangerous fish."
+                        data-ru="Загрузите монеты в субмарину. Выберите зону глубины. Рыбы с множителями плавают вокруг — при столкновении ваши монеты меняются. Глубже = опаснее.">
+                        Load coins into your submarine. Choose a depth zone. Fish with multipliers swim around — when
+                        they hit your sub, your coins change. Deeper = more dangerous fish.</p>
 
                     <div style="margin-bottom:16px;">
                         <label class="bet-label" data-en="Target Zone" data-ru="Целевая зона">Target Zone</label>
                         <div class="mersion-stations" id="mersionStations">
                             <div class="mersion-station" onclick="selectStation(1)" data-station="1">
                                 <div class="mersion-station-depth">200m</div>
-                                <div class="mersion-station-name" data-en="Shallow Reef" data-ru="Риф">Shallow Reef</div>
+                                <div class="mersion-station-name" data-en="Shallow Reef" data-ru="Риф">Shallow Reef
+                                </div>
                                 <div class="mersion-station-info">4 fish</div>
                             </div>
                             <div class="mersion-station" onclick="selectStation(2)" data-station="2">
                                 <div class="mersion-station-depth">500m</div>
-                                <div class="mersion-station-name" data-en="Twilight Zone" data-ru="Сумрак">Twilight Zone</div>
+                                <div class="mersion-station-name" data-en="Twilight Zone" data-ru="Сумрак">Twilight Zone
+                                </div>
                                 <div class="mersion-station-info">7 fish</div>
                             </div>
                             <div class="mersion-station" onclick="selectStation(3)" data-station="3">
                                 <div class="mersion-station-depth">1000m</div>
-                                <div class="mersion-station-name" data-en="Midnight Zone" data-ru="Бездна">Midnight Zone</div>
+                                <div class="mersion-station-name" data-en="Midnight Zone" data-ru="Бездна">Midnight Zone
+                                </div>
                                 <div class="mersion-station-info">10 fish</div>
                             </div>
                             <div class="mersion-station" onclick="selectStation(4)" data-station="4">
                                 <div class="mersion-station-depth">3000m</div>
-                                <div class="mersion-station-name" data-en="Abyssal Plain" data-ru="Абиссаль">Abyssal Plain</div>
+                                <div class="mersion-station-name" data-en="Abyssal Plain" data-ru="Абиссаль">Abyssal
+                                    Plain</div>
                                 <div class="mersion-station-info">14 fish</div>
                             </div>
                             <div class="mersion-station" onclick="selectStation(5)" data-station="5">
                                 <div class="mersion-station-depth">6000m</div>
-                                <div class="mersion-station-name" data-en="Hadal Trench" data-ru="Марианка">Hadal Trench</div>
+                                <div class="mersion-station-name" data-en="Hadal Trench" data-ru="Марианка">Hadal Trench
+                                </div>
                                 <div class="mersion-station-info">18 fish</div>
                             </div>
                         </div>
@@ -1529,16 +1776,22 @@
 
                     <div class="bet-controls">
                         <div class="bet-input-group">
-                            <label class="bet-label" data-en="Coins in Submarine" data-ru="Монеты в субмарину">Coins in Submarine</label>
+                            <label class="bet-label" data-en="Coins in Submarine" data-ru="Монеты в субмарину">Coins in
+                                Submarine</label>
                             <input type="number" class="bet-input" id="mersionBet" value="1000" min="1">
                         </div>
                         <div class="quick-bets">
-                            <button class="quick-bet-button" onclick="document.getElementById('mersionBet').value = 1000">1K</button>
-                            <button class="quick-bet-button" onclick="document.getElementById('mersionBet').value = 5000">5K</button>
-                            <button class="quick-bet-button" onclick="document.getElementById('mersionBet').value = 10000">10K</button>
-                            <button class="quick-bet-button" onclick="document.getElementById('mersionBet').value = 50000">50K</button>
+                            <button class="quick-bet-button"
+                                onclick="document.getElementById('mersionBet').value = 1000">1K</button>
+                            <button class="quick-bet-button"
+                                onclick="document.getElementById('mersionBet').value = 5000">5K</button>
+                            <button class="quick-bet-button"
+                                onclick="document.getElementById('mersionBet').value = 10000">10K</button>
+                            <button class="quick-bet-button"
+                                onclick="document.getElementById('mersionBet').value = 50000">50K</button>
                         </div>
-                        <button class="play-button" id="mersionStartBtn" onclick="startMersion()" data-en="Dive!" data-ru="Погружение!">Dive!</button>
+                        <button class="play-button" id="mersionStartBtn" onclick="startMersion()" data-en="Dive!"
+                            data-ru="Погружение!">Dive!</button>
                     </div>
                 </div>
 
@@ -1842,7 +2095,11 @@
             document.getElementById('diceMultiplier').textContent = multiplier.toFixed(2) + 'x';
         }
 
+        let diceRolling = false;
+
         function playDice() {
+            if (diceRolling) return;
+
             const betAmount = parseFloat(document.getElementById('diceBet').value);
             const chance = parseInt(document.getElementById('diceSlider').value);
 
@@ -1851,6 +2108,7 @@
                 return;
             }
 
+            diceRolling = true;
             balance -= betAmount;
             updateBalance();
 
@@ -1858,18 +2116,54 @@
             // Rigged: Real chance is displayed chance - 5%
             const win = roll < (chance - 5);
 
-            if (win) {
-                const multiplier = (100 / chance) * 0.97;
-                const winAmount = betAmount * multiplier;
-                balance += winAmount;
-                showResult(true, winAmount - betAmount);
-                addTransaction('Dice', winAmount - betAmount, 'win');
-            } else {
-                showResult(false, betAmount);
-                addTransaction('Dice', -betAmount, 'loss');
-            }
+            // Generate a visual dice face (1-6)
+            const diceNumber = Math.floor(Math.random() * 6) + 1;
 
-            updateBalance();
+            // Animate the cube
+            const cube = document.getElementById('diceCube');
+            const resultDisplay = document.getElementById('diceResultNumber');
+            resultDisplay.classList.remove('visible');
+            resultDisplay.textContent = '';
+
+            // Rotation transforms to show each face on top
+            const faceTransforms = {
+                1: 'rotateX(0deg) rotateY(0deg)',
+                2: 'rotateX(0deg) rotateY(180deg)',
+                3: 'rotateX(0deg) rotateY(90deg)',
+                4: 'rotateX(0deg) rotateY(-90deg)',
+                5: 'rotateX(-90deg) rotateY(0deg)',
+                6: 'rotateX(90deg) rotateY(0deg)'
+            };
+
+            cube.style.setProperty('--dice-final-transform', faceTransforms[diceNumber]);
+            cube.classList.remove('rolling');
+            void cube.offsetWidth; // force reflow
+            cube.classList.add('rolling');
+
+            // Stage 1: Cube stops, show the rolled number
+            setTimeout(() => {
+                cube.classList.remove('rolling');
+                cube.style.transform = faceTransforms[diceNumber];
+                resultDisplay.textContent = 'Rolled: ' + diceNumber;
+                resultDisplay.classList.add('visible');
+
+                // Stage 2: After a pause, show the win/loss notification
+                setTimeout(() => {
+                    if (win) {
+                        const multiplier = (100 / chance) * 0.97;
+                        const winAmount = betAmount * multiplier;
+                        balance += winAmount;
+                        showResult(true, winAmount - betAmount);
+                        addTransaction('Dice', winAmount - betAmount, 'win');
+                    } else {
+                        showResult(false, betAmount);
+                        addTransaction('Dice', -betAmount, 'loss');
+                    }
+
+                    updateBalance();
+                    diceRolling = false;
+                }, 1000);
+            }, 1300);
         }
 
         // Coin flip game
@@ -2683,9 +2977,9 @@
             // === BACKGROUND — ocean gradient, gets darker with depth ===
             const d = progress;
             const grad = ctx.createLinearGradient(0, 0, 0, H);
-            grad.addColorStop(0, `rgb(${Math.floor(6-d*4)},${Math.floor(25-d*18)},${Math.floor(65-d*30)})`);
-            grad.addColorStop(0.7, `rgb(${Math.max(0,Math.floor(3-d*3))},${Math.max(0,Math.floor(12-d*10))},${Math.max(0,Math.floor(40-d*25))})`);
-            grad.addColorStop(1, `rgb(${Math.max(0,Math.floor(2-d*2))},${Math.max(0,Math.floor(8-d*6))},${Math.max(0,Math.floor(25-d*15))})`);
+            grad.addColorStop(0, `rgb(${Math.floor(6 - d * 4)},${Math.floor(25 - d * 18)},${Math.floor(65 - d * 30)})`);
+            grad.addColorStop(0.7, `rgb(${Math.max(0, Math.floor(3 - d * 3))},${Math.max(0, Math.floor(12 - d * 10))},${Math.max(0, Math.floor(40 - d * 25))})`);
+            grad.addColorStop(1, `rgb(${Math.max(0, Math.floor(2 - d * 2))},${Math.max(0, Math.floor(8 - d * 6))},${Math.max(0, Math.floor(25 - d * 15))})`);
             ctx.fillStyle = grad;
             ctx.fillRect(0, 0, W, H);
 
