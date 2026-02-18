@@ -1040,13 +1040,16 @@
         /* Mersion Game */
         .mersion-map-container {
             position: relative;
-            background: linear-gradient(180deg, #0a4a7a 0%, #063356 20%, #042440 40%, #021a30 60%, #010d1a 80%, #050510 100%);
+            background:
+                radial-gradient(90% 48% at 50% -8%, rgba(128, 214, 248, 0.28) 0%, rgba(52, 126, 174, 0.24) 30%, rgba(12, 45, 73, 0.1) 58%, transparent 80%),
+                linear-gradient(180deg, #1d5478 0%, #113d60 26%, #08253d 50%, #031424 72%, #01070f 100%);
             border-radius: 20px;
             padding: 20px 12px;
             margin-bottom: 20px;
             min-height: 420px;
             overflow: hidden;
             border: 1px solid rgba(0, 180, 255, 0.15);
+            box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.7);
         }
 
         .mersion-map-container::before {
@@ -1062,6 +1065,17 @@
                     rgba(255, 255, 255, 0.02) 40px,
                     rgba(255, 255, 255, 0.02) 41px);
             pointer-events: none;
+            z-index: 2;
+        }
+
+        .mersion-map-container::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(155, 225, 255, 0.08) 0%, rgba(67, 154, 201, 0.1) 32%, rgba(8, 31, 52, 0.45) 70%, rgba(2, 8, 16, 0.8) 100%);
+            clip-path: polygon(34% 0%, 66% 0%, 66% 14%, 65% 28%, 64% 42%, 63% 56%, 62% 70%, 61% 84%, 60% 100%, 40% 100%, 39% 84%, 38% 70%, 37% 56%, 36% 42%, 35% 28%, 34% 14%);
+            pointer-events: none;
+            z-index: 0;
         }
 
         .mersion-depth-label {
@@ -1092,7 +1106,7 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
-            z-index: 2;
+            z-index: 10;
         }
 
         .mersion-station {
@@ -1368,9 +1382,35 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(180deg, #0a4a7a 0%, #042440 25%, #010d1a 55%, #050510 80%, #020208 100%);
+            background: linear-gradient(180deg, #0a3556 0%, #041c32 45%, #020f1f 70%, #020208 100%);
             z-index: 998;
             overflow: hidden;
+            --dive-duration: 8.5s;
+        }
+
+        .mersion-dive-overlay::after {
+            content: '';
+            position: absolute;
+            inset: -12%;
+            background:
+                radial-gradient(115% 72% at 50% -12%, rgba(138, 214, 247, 0.34) 0%, rgba(59, 138, 190, 0.22) 34%, rgba(14, 53, 87, 0.06) 62%, transparent 80%),
+                linear-gradient(180deg, #0b4e7e 0%, #06345a 24%, #021d35 50%, #010f1f 72%, #020208 100%);
+            transform: translateY(0) scale(1.08);
+            transform-origin: 50% 15%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.96;
+            will-change: transform;
+        }
+
+        .mersion-dive-overlay::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(128, 211, 247, 0.06) 0%, rgba(46, 119, 165, 0.1) 32%, rgba(8, 25, 45, 0.46) 72%, rgba(3, 7, 14, 0.85) 100%);
+            clip-path: polygon(34% 0%, 66% 0%, 66% 14%, 65% 28%, 64% 42%, 63% 56%, 62% 70%, 61% 84%, 60% 100%, 40% 100%, 39% 84%, 38% 70%, 37% 56%, 36% 42%, 35% 28%, 34% 14%);
+            pointer-events: none;
+            z-index: 1;
         }
 
         .mersion-dive-overlay.active {
@@ -1378,6 +1418,24 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+        }
+
+        .mersion-dive-overlay.active::after {
+            animation: diveBackgroundDrift var(--dive-duration) cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @keyframes diveBackgroundDrift {
+            0% {
+                transform: translateY(0) scale(1.08);
+            }
+
+            35% {
+                transform: translateY(-2.5%) scale(1.12);
+            }
+
+            100% {
+                transform: translateY(-13%) scale(1.24);
+            }
         }
 
         /* Water surface splash */
@@ -1389,7 +1447,8 @@
             height: 100%;
             z-index: 10;
             pointer-events: none;
-            animation: waterSurfaceFade 1.8s ease-out forwards;
+            animation: waterSurfaceRise 8.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            will-change: transform, opacity;
         }
 
         .mersion-water-surface-line {
@@ -1400,6 +1459,7 @@
             height: 4px;
             background: linear-gradient(90deg, transparent 5%, rgba(120, 220, 255, 0.6) 20%, rgba(200, 240, 255, 0.9) 50%, rgba(120, 220, 255, 0.6) 80%, transparent 95%);
             box-shadow: 0 0 30px rgba(100, 200, 255, 0.5), 0 0 60px rgba(100, 200, 255, 0.2);
+            transform: none;
         }
 
         .mersion-water-surface-sky {
@@ -1430,17 +1490,20 @@
             animation: splashRing 1.2s ease-out forwards;
         }
 
-        @keyframes waterSurfaceFade {
+        @keyframes waterSurfaceRise {
             0% {
                 opacity: 1;
+                transform: translateY(0);
             }
 
-            50% {
+            24% {
                 opacity: 1;
+                transform: translateY(-4%);
             }
 
             100% {
                 opacity: 0;
+                transform: translateY(-64%);
             }
         }
 
@@ -1470,32 +1533,52 @@
             }
         }
 
+        .mersion-surface-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 150px;
+            z-index: 2;
+            pointer-events: none;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, transparent 100%);
+            /* Meniscus effect */
+            box-shadow: inset 0 20px 50px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Rock walls - Mariana Trench style */
         /* Rock walls - Mariana Trench style */
         .mersion-rock-wall {
             position: absolute;
             top: 0;
             bottom: 0;
-            width: 130px;
-            z-index: 3;
+            width: 50%;
+            z-index: 1;
             pointer-events: none;
-            overflow: hidden;
+            background: linear-gradient(180deg, rgba(22, 42, 58, 0.86) 0%, rgba(11, 24, 35, 0.95) 48%, rgba(4, 10, 17, 1) 100%);
         }
 
         .mersion-rock-wall.left {
             left: 0;
+            clip-path: polygon(0% 0%, 34% 0%, 35% 14%, 37% 28%, 39% 44%, 42% 60%, 45% 76%, 48% 90%, 50% 100%, 0% 100%);
         }
 
         .mersion-rock-wall.right {
             right: 0;
+            clip-path: polygon(100% 0%, 66% 0%, 65% 14%, 63% 28%, 61% 44%, 58% 60%, 55% 76%, 52% 90%, 50% 100%, 100% 100%);
         }
 
+        /* Scrolling texture inside the static rock shape */
         .mersion-rock-wall-inner {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             height: 400%;
-            animation: rockScroll 4.5s linear;
+            background:
+                linear-gradient(90deg, rgba(0, 0, 0, 0.4) 0%, transparent 50%, rgba(0, 0, 0, 0.4) 100%),
+                repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.03) 0px, transparent 2px, transparent 10px);
+            animation: rockScroll 8s linear infinite;
         }
 
         @keyframes rockScroll {
@@ -1504,7 +1587,7 @@
             }
 
             100% {
-                transform: translateY(-70%);
+                transform: translateY(-50%);
             }
         }
 
@@ -1656,7 +1739,7 @@
         .mersion-submarine {
             position: relative;
             z-index: 5;
-            animation: submarineDive 4s ease-in-out;
+            animation: submarineDive 8.5s ease-in-out;
             filter: drop-shadow(0 0 20px rgba(0, 200, 255, 0.5)) drop-shadow(0 0 40px rgba(0, 200, 255, 0.2));
         }
 
@@ -1683,7 +1766,7 @@
             font-weight: 800;
             color: rgba(0, 200, 255, 0.7);
             margin-top: 16px;
-            animation: depthCount 4s ease-in-out;
+            animation: depthCount 8.5s ease-in-out;
             z-index: 5;
         }
 
@@ -1716,7 +1799,7 @@
             background: linear-gradient(180deg, rgba(0, 200, 255, 0.5), rgba(0, 200, 255, 0.1), rgba(0, 200, 255, 0.4));
             transform: translateX(-50%);
             z-index: 2;
-            animation: connectorGrow 4s ease-in-out;
+            animation: connectorGrow 8.5s ease-in-out;
         }
 
         .mersion-connector::after {
@@ -1758,7 +1841,7 @@
             align-items: center;
             gap: 8px;
             z-index: 4;
-            animation: stationAppear 4s ease-in-out;
+            animation: stationAppear 8.5s ease-in-out;
         }
 
         .mersion-dock-icon {
@@ -1831,7 +1914,7 @@
 
         @keyframes submarineDive {
             0% {
-                transform: translateY(-120px);
+                transform: translateY(-165px);
                 opacity: 0;
             }
 
@@ -1839,18 +1922,24 @@
                 opacity: 1;
             }
 
-            40% {
-                transform: translateY(0px);
+            34% {
+                transform: translateY(-48px);
+                opacity: 1;
             }
 
-            70% {
-                transform: translateY(60px);
+            52% {
+                transform: translateY(12px);
+                opacity: 0.94;
+            }
+
+            76% {
+                transform: translateY(96px);
                 opacity: 0.8;
             }
 
             100% {
-                transform: translateY(100px);
-                opacity: 0.4;
+                transform: translateY(162px);
+                opacity: 0.5;
             }
         }
 
@@ -2256,6 +2345,13 @@
                 </button>
 
                 <div class="mersion-map-container">
+                    <div class="mersion-surface-effect"></div>
+                    <div class="mersion-rock-wall left">
+                        <div class="mersion-rock-wall-inner"></div>
+                    </div>
+                    <div class="mersion-rock-wall right">
+                        <div class="mersion-rock-wall-inner"></div>
+                    </div>
                     <div class="mersion-stations" id="mersionStations">
                         <div class="mersion-station" onclick="selectStation(0)">
                             <div class="mersion-station-icon">🏝️</div>
@@ -3182,12 +3278,15 @@
             document.getElementById('mersionDockName').textContent = station.name.toUpperCase();
 
             overlay.classList.add('active');
+            const diveDurationMs = 8500;
+            const diveDurationSec = (diveDurationMs / 1000).toFixed(1) + 's';
+            overlay.style.setProperty('--dive-duration', diveDurationSec);
 
             // --- Water surface splash animation ---
             const waterSurface = document.getElementById('mersionWaterSurface');
             waterSurface.style.animation = 'none';
             void waterSurface.offsetWidth;
-            waterSurface.style.animation = 'waterSurfaceFade 1.8s ease-out forwards';
+            waterSurface.style.animation = `waterSurfaceRise ${diveDurationSec} cubic-bezier(0.22, 1, 0.36, 1) forwards`;
 
             // Create splash drops
             const existingSplash = waterSurface.querySelectorAll('.mersion-splash-drop, .mersion-splash-ring');
@@ -3251,28 +3350,53 @@
                 defs.appendChild(grad);
                 svg.appendChild(defs);
 
-                // Build jagged polygon edge
-                const segments = 40;
+                // Build trench-like cliff contour (wide shelf -> narrow abyss)
+                const trenchProfile = [
+                    { y: 0, edge: 34 },
+                    { y: 14, edge: 35 },
+                    { y: 28, edge: 37 },
+                    { y: 42, edge: 39 },
+                    { y: 56, edge: 42 },
+                    { y: 70, edge: 45 },
+                    { y: 84, edge: 48 },
+                    { y: 100, edge: 50 }
+                ];
+                const edgeAtDepth = (y) => {
+                    for (let i = 1; i < trenchProfile.length; i++) {
+                        const prev = trenchProfile[i - 1];
+                        const next = trenchProfile[i];
+                        if (y <= next.y) {
+                            const t = (y - prev.y) / (next.y - prev.y);
+                            return prev.edge + (next.edge - prev.edge) * t;
+                        }
+                    }
+                    return trenchProfile[trenchProfile.length - 1].edge;
+                };
+
+                const segments = 56;
                 let points = '';
+                const jitterSeed = Math.random() * Math.PI * 2;
 
                 if (side === 'left') {
-                    // Start from top-left corner
                     points += '0,0 ';
                     for (let i = 0; i <= segments; i++) {
                         const y = (i / segments) * 100;
-                        const x = 50 + Math.random() * 40 + Math.sin(i * 0.7) * 15;
-                        points += `${x},${y} `;
+                        const baseEdge = edgeAtDepth(y);
+                        const roughness = Math.sin(jitterSeed + i * 1.12) * 2.6 + Math.cos(i * 0.46) * 1.1 + (Math.random() - 0.5) * 1.8;
+                        const edge = Math.max(18, Math.min(92, baseEdge + roughness));
+                        points += `${edge.toFixed(2)},${y.toFixed(2)} `;
                     }
-                    points += '0,100';
+                    points += '0,84';
                 } else {
-                    // Start from top-right corner
                     points += '100,0 ';
                     for (let i = 0; i <= segments; i++) {
                         const y = (i / segments) * 100;
-                        const x = 100 - (50 + Math.random() * 40 + Math.sin(i * 0.7) * 15);
-                        points += `${x},${y} `;
+                        const baseEdge = edgeAtDepth(y);
+                        const roughness = Math.sin(jitterSeed + i * 1.12) * 2.6 + Math.cos(i * 0.46) * 1.1 + (Math.random() - 0.5) * 1.8;
+                        const edge = Math.max(18, Math.min(92, baseEdge + roughness));
+                        points += `${(100 - edge).toFixed(2)},${y.toFixed(2)} `;
                     }
-                    points += '100,100';
+                    points += '100,84';
                 }
 
                 const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
@@ -3293,12 +3417,16 @@
 
                 container.appendChild(svg);
 
-                // Add horizontal ledge lines across the wall face
-                for (let i = 0; i < 30; i++) {
+                // Add slanted ledges so the underwater rock surface reads as rising outward
+                for (let i = 0; i < 26; i++) {
                     const ledge = document.createElement('div');
                     ledge.className = 'mersion-rock-ledge ' + side + '-ledge';
-                    ledge.style.top = (i * 3.3 + Math.random() * 1.5) + '%';
-                    ledge.style.width = (30 + Math.random() * 40) + '%';
+                    const depthT = i / 25;
+                    ledge.style.top = (8 + depthT * 82 + Math.random() * 1.4) + '%';
+                    ledge.style.width = (24 + depthT * 42 + Math.random() * 18) + '%';
+                    const tilt = (2 + depthT * 4 + Math.random() * 1.4) * (side === 'left' ? 1 : -1);
+                    ledge.style.transformOrigin = side === 'left' ? 'left center' : 'right center';
+                    ledge.style.transform = `rotate(${tilt}deg)`;
                     if (side === 'left') { ledge.style.left = '0'; }
                     else { ledge.style.right = '0'; ledge.style.left = 'auto'; }
                     container.appendChild(ledge);
@@ -3343,8 +3471,8 @@
             rockLeftInner.style.animation = 'none';
             rockRightInner.style.animation = 'none';
             void rockLeftInner.offsetWidth;
-            rockLeftInner.style.animation = 'rockScroll 4.5s linear';
-            rockRightInner.style.animation = 'rockScroll 4.5s linear';
+            rockLeftInner.style.animation = 'rockScroll 8.5s linear';
+            rockRightInner.style.animation = 'rockScroll 8.5s linear';
 
             // --- Place station markers on rock walls ---
             // Remove old wall stations
@@ -3357,7 +3485,7 @@
                 if (idx === selectedStation) marker.classList.add('selected-station');
 
                 // Position stations at different depths along the rock walls
-                const depthPercent = 15 + (idx / (mersionStations.length - 1)) * 65;
+                const depthPercent = 10 + (idx / (mersionStations.length - 1)) * 80;
                 marker.style.top = depthPercent + '%';
                 marker.style.animationDelay = (0.5 + idx * 0.4) + 's';
 
@@ -3375,19 +3503,19 @@
             // --- Submarine animation ---
             subEl.style.animation = 'none';
             void subEl.offsetWidth;
-            subEl.style.animation = 'submarineDive 4s ease-in-out';
+            subEl.style.animation = `submarineDive ${diveDurationSec} ease-in-out`;
 
             // Reset connector animation
             const connector = document.getElementById('mersionConnector');
             connector.style.animation = 'none';
             void connector.offsetWidth;
-            connector.style.animation = 'connectorGrow 4s ease-in-out';
+            connector.style.animation = `connectorGrow ${diveDurationSec} ease-in-out`;
 
             // Reset dock animation
             const dock = document.getElementById('mersionDock');
             dock.style.animation = 'none';
             void dock.offsetWidth;
-            dock.style.animation = 'stationAppear 4s ease-in-out';
+            dock.style.animation = `stationAppear ${diveDurationSec} ease-in-out`;
 
             // Create bubbles
             const bubblesContainer = document.getElementById('mersionBubbles');
@@ -3418,14 +3546,16 @@
             // Animate depth counter
             let currentDepth = 0;
             const targetDepth = station.depth;
+            const depthSteps = Math.max(70, Math.round(diveDurationMs / 55));
+            const depthTickMs = Math.max(35, Math.round(diveDurationMs / depthSteps));
             const depthInterval = setInterval(() => {
-                currentDepth += Math.ceil(targetDepth / 70);
+                currentDepth += Math.ceil(targetDepth / depthSteps);
                 if (currentDepth >= targetDepth) {
                     currentDepth = targetDepth;
                     clearInterval(depthInterval);
                 }
                 depthEl.textContent = currentDepth + 'm';
-            }, 55);
+            }, depthTickMs);
 
             // After dive animation, pick a fish
             setTimeout(() => {
@@ -3482,7 +3612,7 @@
 
                 modal.classList.add('active');
                 diveBtn.disabled = false;
-            }, 4500);
+            }, diveDurationMs);
         }
 
         // Initialize display
