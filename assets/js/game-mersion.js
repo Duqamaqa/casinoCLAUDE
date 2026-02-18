@@ -407,10 +407,12 @@ function playMersion() {
     void subEl.offsetWidth;
     subEl.style.animation = `submarineDive ${diveDurationSec} ease-in-out`;
 
-    // Route line from submarine to selected side station marker
-    const connector = document.getElementById('mersionConnector');
-    connector.style.opacity = '0';
-    let connectorTrackFrame = 0;
+    // Finish line aligned with the selected side station marker
+    const finishLine = document.getElementById('mersionFinishLine');
+    if (finishLine) finishLine.style.opacity = '0';
+    let finishLineTrackFrame = 0;
+    let finishCrossCheckFrame = 0;
+    let hasFinishedDive = false;
     let selectedStationMarker = null;
     const getSelectedStationMarker = () => {
         if (selectedStationMarker && document.body.contains(selectedStationMarker)) return selectedStationMarker;
@@ -420,37 +422,24 @@ function playMersion() {
             document.querySelector('.mersion-wall-station .mersion-wall-station-dot');
         return selectedStationMarker;
     };
-    const trackConnectorToMarker = () => {
-        if (!overlay.classList.contains('active')) return;
+    const trackFinishLineToMarker = () => {
+        if (!overlay.classList.contains('active') || !finishLine) return;
         const markerEl = getSelectedStationMarker();
         if (!markerEl) {
-            connectorTrackFrame = requestAnimationFrame(trackConnectorToMarker);
+            finishLineTrackFrame = requestAnimationFrame(trackFinishLineToMarker);
             return;
         }
 
-        const subRect = subEl.getBoundingClientRect();
+        const overlayRect = overlay.getBoundingClientRect();
         const markerRect = markerEl.getBoundingClientRect();
-        const markerX = markerRect.left + markerRect.width / 2;
-        const markerY = markerRect.top + markerRect.height / 2;
-        const subCenterX = subRect.left + subRect.width / 2;
-        const fromRightSide = markerX > subCenterX;
-        const startX = subRect.left + (fromRightSide ? subRect.width * 0.78 : subRect.width * 0.22);
-        const startY = subRect.top + subRect.height * 0.56;
+        const markerY = markerRect.top + markerRect.height / 2 - overlayRect.top;
+        const clampedY = Math.max(0, Math.min(overlayRect.height, markerY));
 
-        const deltaX = markerX - startX;
-        const deltaY = markerY - startY;
-        const distance = Math.max(10, Math.hypot(deltaX, deltaY));
-        const angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
-
-        connector.style.left = `${startX}px`;
-        connector.style.top = `${startY}px`;
-        connector.style.width = `${distance}px`;
-        connector.style.transform = `translateY(-50%) rotate(${angle}deg)`;
-        connector.style.opacity = '1';
-
-        connectorTrackFrame = requestAnimationFrame(trackConnectorToMarker);
+        finishLine.style.top = `${clampedY}px`;
+        finishLine.style.opacity = '1';
+        finishLineTrackFrame = requestAnimationFrame(trackFinishLineToMarker);
     };
-    connectorTrackFrame = requestAnimationFrame(trackConnectorToMarker);
+    if (finishLine) finishLineTrackFrame = requestAnimationFrame(trackFinishLineToMarker);
 
     // Create bubbles
     const bubblesContainer = document.getElementById('mersionBubbles');
@@ -549,12 +538,19 @@ function playMersion() {
         depthEl.textContent = currentDepth + 'm';
     }, depthTickMs);
 
-    // After dive animation, pick a fish
-    setTimeout(() => {
-        // Clear particles
+    const finishDive = () => {
+        if (hasFinishedDive) return;
+        hasFinishedDive = true;
+
+        // Clear particles and running trackers
         document.querySelectorAll('.mersion-depth-particle').forEach(p => p.remove());
-        if (connectorTrackFrame) cancelAnimationFrame(connectorTrackFrame);
+        if (finishLineTrackFrame) cancelAnimationFrame(finishLineTrackFrame);
+        if (finishCrossCheckFrame) cancelAnimationFrame(finishCrossCheckFrame);
         if (fishCollisionFrame) cancelAnimationFrame(fishCollisionFrame);
+        clearInterval(depthInterval);
+        currentDepth = targetDepth;
+        depthEl.textContent = currentDepth + 'm';
+        if (finishLine) finishLine.style.opacity = '0';
         fishSwarm.innerHTML = '';
         overlay.classList.remove('active');
 
@@ -607,5 +603,33 @@ function playMersion() {
 
         modal.classList.add('active');
         diveBtn.disabled = false;
-    }, diveDurationMs);
+    };
+
+    // Finish the immersion only when submarine crosses the finish line.
+    const checkFinishLineCrossing = () => {
+        if (!overlay.classList.contains('active') || hasFinishedDive) return;
+        if (!finishLine || finishLine.style.opacity !== '1') {
+            finishCrossCheckFrame = requestAnimationFrame(checkFinishLineCrossing);
+            return;
+        }
+
+        const subRect = subEl.getBoundingClientRect();
+        const finishRect = finishLine.getBoundingClientRect();
+        const finishY = finishRect.top + finishRect.height / 2;
+        const intersectsFinishLine = subRect.top <= finishY && subRect.bottom >= finishY;
+
+        if (intersectsFinishLine) {
+            finishDive();
+            return;
+        }
+
+        finishCrossCheckFrame = requestAnimationFrame(checkFinishLineCrossing);
+    };
+
+    if (finishLine) {
+        finishCrossCheckFrame = requestAnimationFrame(checkFinishLineCrossing);
+    } else {
+        // Fallback path if finish line is missing from DOM.
+        setTimeout(finishDive, diveDurationMs);
+    }
 }
