@@ -452,7 +452,7 @@ function playMersion() {
     subEl.style.transform = '';
     subEl.style.animation = 'none';
     void subEl.offsetWidth;
-    subEl.style.animation = `submarineDive ${diveDurationSec} ease-in-out`;
+    subEl.style.animation = `submarineDive ${diveDurationSec} ease-in-out forwards`;
 
     // Station-based completion and docking flow
     if (dockingLink) dockingLink.style.opacity = '0';
@@ -797,22 +797,43 @@ function playMersion() {
         dockingActive = false;
         renderCheckpointProgress(totalCheckpoints);
 
-        // Rigged: Shift probability toward lower multiplier fish
-        // Weight: first fish (lowest) gets highest weight
-        const weights = [35, 25, 20, 12, 8]; // heavier on low mult
-        const totalWeight = weights.reduce((a, b) => a + b, 0);
-        let rand = Math.random() * totalWeight;
-        let fishIndex = 0;
-        for (let i = 0; i < weights.length; i++) {
-            rand -= weights[i];
-            if (rand <= 0) {
-                fishIndex = i;
-                break;
-            }
-        }
+        // Balanced house edge: loss chance is slightly higher than win chance.
+        // Deeper stations increase both upside and downside around x1.
+        const minStationDepth = mersionStations[0].depth;
+        const depthNorm = Math.max(0, Math.min(1, (station.depth - minStationDepth) / Math.max(1, maxDepth - minStationDepth)));
+        const targetWinChance = 0.49 - depthNorm * 0.04; // ~49% shallow -> ~45% deep
+        const allOutcomes = station.fish.map((entry, idx) => ({ entry, idx }));
+        const winOutcomes = allOutcomes.filter(item => item.entry.mult > 1);
+        const lossOutcomes = allOutcomes.filter(item => item.entry.mult <= 1);
+        const rollWin = Math.random() < targetWinChance;
+        let pool = rollWin ? winOutcomes : lossOutcomes;
+        if (!pool.length) pool = allOutcomes;
 
-        const fish = station.fish[fishIndex];
-        const winAmount = subBetAmount * fish.mult;
+        const weightedPick = (items, weightFn) => {
+            const weights = [];
+            let total = 0;
+            for (const item of items) {
+                const weight = Math.max(0.0001, weightFn(item));
+                weights.push(weight);
+                total += weight;
+            }
+            let roll = Math.random() * total;
+            for (let i = 0; i < items.length; i++) {
+                roll -= weights[i];
+                if (roll <= 0) return items[i];
+            }
+            return items[items.length - 1];
+        };
+
+        const picked = weightedPick(pool, ({ entry }) => {
+            if (entry.mult > 1) return 1 + depthNorm * (entry.mult - 1) * 1.3;
+            return 1 + depthNorm * (1 - entry.mult) * 1.6;
+        });
+
+        const fish = picked.entry;
+        const depthSwing = 1 + depthNorm * 0.28;
+        const resolvedMultiplier = Math.max(0.05, Math.min(6.5, 1 + (fish.mult - 1) * depthSwing));
+        const winAmount = subBetAmount * resolvedMultiplier;
         balance += winAmount;
         updateBalance();
 
@@ -828,17 +849,17 @@ function playMersion() {
         emoji.textContent = fish.emoji;
 
         if (isWin) {
-            title.textContent = (currentLanguage === 'en' ? 'Caught: ' : 'Поймано: ') + fish.name + ' (x' + fish.mult.toFixed(1) + ')';
+            title.textContent = (currentLanguage === 'en' ? 'Caught: ' : 'Поймано: ') + fish.name + ' (x' + resolvedMultiplier.toFixed(2) + ')';
             amountEl.textContent = '+' + Math.ceil(profit) + ' 🪙';
             amountEl.className = 'result-amount win';
             addTransaction('Mersion', profit, 'win');
         } else if (profit === 0) {
-            title.textContent = (currentLanguage === 'en' ? 'Caught: ' : 'Поймано: ') + fish.name + ' (x' + fish.mult.toFixed(1) + ')';
+            title.textContent = (currentLanguage === 'en' ? 'Caught: ' : 'Поймано: ') + fish.name + ' (x' + resolvedMultiplier.toFixed(2) + ')';
             amountEl.textContent = '0 🪙';
             amountEl.className = 'result-amount';
             addTransaction('Mersion', 0, 'draw');
         } else {
-            title.textContent = (currentLanguage === 'en' ? 'Caught: ' : 'Поймано: ') + fish.name + ' (x' + fish.mult.toFixed(1) + ')';
+            title.textContent = (currentLanguage === 'en' ? 'Caught: ' : 'Поймано: ') + fish.name + ' (x' + resolvedMultiplier.toFixed(2) + ')';
             amountEl.textContent = Math.ceil(profit) + ' 🪙';
             amountEl.className = 'result-amount lose';
             addTransaction('Mersion', profit, 'loss');

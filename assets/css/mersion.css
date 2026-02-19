@@ -838,7 +838,7 @@
 .mersion-submarine {
     position: relative;
     z-index: 5;
-    animation: submarineDive 8.5s ease-in-out;
+    animation: submarineDive 8.5s ease-in-out forwards;
     filter: drop-shadow(0 0 20px rgba(0, 200, 255, 0.5)) drop-shadow(0 0 40px rgba(0, 200, 255, 0.2));
     margin-left: var(--sub-lane-shift);
     transition: margin-left 0.7s cubic-bezier(0.22, 1, 0.36, 1);
