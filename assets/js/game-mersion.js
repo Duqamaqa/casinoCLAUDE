@@ -130,7 +130,7 @@ function toggleMersionMap() {
 
             card.innerHTML = `
                 <div class="mersion-fullmap-station-header">
-                    <div class="mersion-fullmap-station-icon">${station.icon}</div>
+                    <div class="mersion-fullmap-station-icon" aria-hidden="true"></div>
                     <div>
                         <div class="mersion-fullmap-station-title">${station.name}</div>
                         <div class="mersion-fullmap-station-depth-tag">${station.depth}m depth · Risk Level ${si + 1}/5</div>
@@ -167,6 +167,8 @@ function playMersion() {
     // Show dive animation
     const overlay = document.getElementById('mersionDiveOverlay');
     const depthEl = document.getElementById('mersionDiveDepth');
+    const progressEl = document.getElementById('mersionDiveProgress');
+    const dockingLink = document.getElementById('mersionDockingLink');
     const subEl = document.getElementById('mersionSub');
     initMersionLaneControls();
     applyMersionLane('center', overlay);
@@ -183,6 +185,9 @@ function playMersion() {
     const diveDurationMs = 8500;
     const diveDurationSec = (diveDurationMs / 1000).toFixed(1) + 's';
     overlay.style.setProperty('--dive-duration', diveDurationSec);
+
+    const progressPrefix = currentLanguage === 'en' ? 'Checkpoints' : 'Станции';
+    const dockingPrefix = currentLanguage === 'en' ? 'Docking' : 'Стыковка';
 
     // --- Water surface splash animation ---
     const waterSurface = document.getElementById('mersionWaterSurface');
@@ -366,6 +371,8 @@ function playMersion() {
 
     const rockLeftInner = document.getElementById('mersionRockLeftInner');
     const rockRightInner = document.getElementById('mersionRockRightInner');
+    const rockLeft = document.getElementById('mersionRockLeft');
+    const rockRight = document.getElementById('mersionRockRight');
     generateWall(rockLeftInner, 'left');
     generateWall(rockRightInner, 'right');
 
@@ -380,66 +387,211 @@ function playMersion() {
     // Remove old wall stations
     document.querySelectorAll('.mersion-wall-station').forEach(el => el.remove());
 
+    const targetStationIndex = selectedStation;
+    const maxDepth = mersionStations[mersionStations.length - 1].depth;
+    const targetDepth = station.depth;
+    const checkpointMarkers = [];
+    const stationMarkers = [];
+    let targetStationMarker = null;
+    let currentDepth = 0;
+
+    const updateStationDepthPositions = () => {
+        const depthToPx = (overlay.clientHeight * 1.12) / Math.max(1, maxDepth);
+        const zeroDepthY = overlay.clientHeight * 0.72;
+        for (const markerEl of stationMarkers) {
+            const markerDepth = parseFloat(markerEl.dataset.depth || '0');
+            const stationY = zeroDepthY + (markerDepth - currentDepth) * depthToPx;
+            markerEl.style.top = `${stationY.toFixed(2)}px`;
+        }
+    };
+
     mersionStations.forEach((st, idx) => {
         const isLeft = idx % 2 === 0;
         const marker = document.createElement('div');
         marker.className = 'mersion-wall-station ' + (isLeft ? 'left-side' : 'right-side');
-        if (idx === selectedStation) marker.classList.add('selected-station');
+        marker.dataset.stationIndex = String(idx);
+        marker.dataset.depth = String(st.depth);
 
-        // Position stations at different depths along the rock walls
-        const depthPercent = 10 + (idx / (mersionStations.length - 1)) * 80;
-        marker.style.top = depthPercent + '%';
-        marker.style.animationDelay = (0.5 + idx * 0.4) + 's';
+        if (idx === targetStationIndex) {
+            marker.classList.add('selected-station', 'checkpoint-target');
+            targetStationMarker = marker;
+        } else if (idx < targetStationIndex) {
+            marker.classList.add('checkpoint-pending');
+        } else {
+            marker.classList.add('checkpoint-locked');
+        }
+
+        marker.style.setProperty('--station-appear-delay', (0.15 + idx * 0.18) + 's');
 
         marker.innerHTML = `
-            <div class="mersion-wall-station-dot"></div>
-            <div class="mersion-wall-station-line"></div>
-            <div class="mersion-wall-station-icon">${st.icon}</div>
-            <div class="mersion-wall-station-label">${st.name}<br>${st.depth}m</div>
+            <div class="mersion-wall-station-body">
+                <div class="mersion-wall-station-dot"></div>
+                <div class="mersion-wall-station-line"></div>
+                <div class="mersion-wall-station-icon" aria-hidden="true"></div>
+                <div class="mersion-wall-station-label">${st.name}<br>${st.depth}m</div>
+            </div>
         `;
 
-        const wallInner = isLeft ? rockLeftInner : rockRightInner;
-        wallInner.appendChild(marker);
+        const wall = isLeft ? rockLeft : rockRight;
+        wall.appendChild(marker);
+        stationMarkers.push(marker);
+        if (idx <= targetStationIndex) checkpointMarkers.push(marker);
     });
+    updateStationDepthPositions();
+
+    const totalCheckpoints = checkpointMarkers.length;
+    const passedMarkers = checkpointMarkers.slice(0, Math.max(0, checkpointMarkers.length - 1));
+    let passedCheckpointCount = 0;
+    const renderCheckpointProgress = (passed) => {
+        if (!progressEl) return;
+        progressEl.textContent = `${progressPrefix} ${Math.max(0, Math.min(totalCheckpoints, passed))}/${totalCheckpoints}`;
+    };
+    renderCheckpointProgress(0);
 
     // --- Submarine animation ---
+    subEl.style.transform = '';
     subEl.style.animation = 'none';
     void subEl.offsetWidth;
     subEl.style.animation = `submarineDive ${diveDurationSec} ease-in-out`;
 
-    // Finish line aligned with the selected side station marker
-    const finishLine = document.getElementById('mersionFinishLine');
-    if (finishLine) finishLine.style.opacity = '0';
-    let finishLineTrackFrame = 0;
-    let finishCrossCheckFrame = 0;
+    // Station-based completion and docking flow
+    if (dockingLink) dockingLink.style.opacity = '0';
+    let stationReachCheckFrame = 0;
+    let checkpointTrackFrame = 0;
+    let dockingTrackFrame = 0;
+    let autoDiveFrame = 0;
+    let autoDiveTimer = 0;
+    let dockingTimer = 0;
+    const dockingDurationMs = 2600;
     let hasFinishedDive = false;
-    let selectedStationMarker = null;
-    const getSelectedStationMarker = () => {
-        if (selectedStationMarker && document.body.contains(selectedStationMarker)) return selectedStationMarker;
-        selectedStationMarker =
-            document.querySelector('.mersion-wall-station.selected-station .mersion-wall-station-dot') ||
-            document.querySelector('.mersion-wall-station.selected-station') ||
-            document.querySelector('.mersion-wall-station .mersion-wall-station-dot');
-        return selectedStationMarker;
+    let autoDiveActive = false;
+    let dockingActive = false;
+    const getElementTranslateY = (element) => {
+        const transform = window.getComputedStyle(element).transform;
+        if (!transform || transform === 'none') return 0;
+
+        try {
+            if (window.DOMMatrixReadOnly) return new DOMMatrixReadOnly(transform).m42;
+            if (window.DOMMatrix) return new DOMMatrix(transform).m42;
+        } catch (_) {
+            // Fallback below handles matrix parsing for older environments.
+        }
+
+        const matrixMatch = transform.match(/matrix(3d)?\(([^)]+)\)/);
+        if (!matrixMatch) return 0;
+        const values = matrixMatch[2].split(',').map(v => parseFloat(v.trim()));
+        if (matrixMatch[1] === '3d') return values[13] || 0;
+        return values[5] || 0;
     };
-    const trackFinishLineToMarker = () => {
-        if (!overlay.classList.contains('active') || !finishLine) return;
-        const markerEl = getSelectedStationMarker();
-        if (!markerEl) {
-            finishLineTrackFrame = requestAnimationFrame(trackFinishLineToMarker);
+    const getTargetStationContainer = () => {
+        if (targetStationMarker && document.body.contains(targetStationMarker)) return targetStationMarker;
+        targetStationMarker = document.querySelector('.mersion-wall-station.selected-station');
+        return targetStationMarker;
+    };
+    const getTargetStationAnchor = () => {
+        const container = getTargetStationContainer();
+        if (!container) return null;
+        return container.querySelector('.mersion-wall-station-dot') || container;
+    };
+
+    const trackCheckpointProgress = () => {
+        if (!overlay.classList.contains('active') || hasFinishedDive) return;
+        if (!dockingActive) {
+            while (passedCheckpointCount < passedMarkers.length) {
+                const nextMarker = passedMarkers[passedCheckpointCount];
+                const markerDepth = parseFloat(nextMarker.dataset.depth || '0');
+                if (currentDepth < markerDepth) break;
+                nextMarker.classList.remove('checkpoint-pending');
+                nextMarker.classList.add('checkpoint-passed');
+                passedCheckpointCount += 1;
+                renderCheckpointProgress(passedCheckpointCount);
+            }
+        }
+        checkpointTrackFrame = requestAnimationFrame(trackCheckpointProgress);
+    };
+    if (totalCheckpoints > 0) checkpointTrackFrame = requestAnimationFrame(trackCheckpointProgress);
+
+    const trackDockingLink = () => {
+        if (!dockingActive || !overlay.classList.contains('active') || !dockingLink) return;
+        const targetAnchor = getTargetStationAnchor();
+        if (!targetAnchor) {
+            dockingTrackFrame = requestAnimationFrame(trackDockingLink);
             return;
         }
 
-        const overlayRect = overlay.getBoundingClientRect();
-        const markerRect = markerEl.getBoundingClientRect();
-        const markerY = markerRect.top + markerRect.height / 2 - overlayRect.top;
-        const clampedY = Math.max(0, Math.min(overlayRect.height, markerY));
+        const subRect = subEl.getBoundingClientRect();
+        const targetRect = targetAnchor.getBoundingClientRect();
+        const targetX = targetRect.left + targetRect.width / 2;
+        const targetY = targetRect.top + targetRect.height / 2;
+        const subCenterX = subRect.left + subRect.width / 2;
+        const startX = targetX >= subCenterX ? subRect.left + subRect.width * 0.78 : subRect.left + subRect.width * 0.22;
+        const startY = subRect.top + subRect.height * 0.56;
+        const deltaX = targetX - startX;
+        const deltaY = targetY - startY;
+        const distance = Math.max(8, Math.hypot(deltaX, deltaY));
+        const angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
 
-        finishLine.style.top = `${clampedY}px`;
-        finishLine.style.opacity = '1';
-        finishLineTrackFrame = requestAnimationFrame(trackFinishLineToMarker);
+        dockingLink.style.left = `${startX}px`;
+        dockingLink.style.top = `${startY}px`;
+        dockingLink.style.width = `${distance}px`;
+        dockingLink.style.transform = `translateY(-50%) rotate(${angle}deg)`;
+        dockingTrackFrame = requestAnimationFrame(trackDockingLink);
     };
-    if (finishLine) finishLineTrackFrame = requestAnimationFrame(trackFinishLineToMarker);
+
+    const startAutoDiveToFinish = () => {
+        if (autoDiveActive || dockingActive || hasFinishedDive || !overlay.classList.contains('active')) return;
+        autoDiveActive = true;
+        let currentTranslateY = getElementTranslateY(subEl);
+        subEl.style.animation = 'none';
+
+        const driftDown = () => {
+            if (hasFinishedDive || dockingActive || !overlay.classList.contains('active')) {
+                autoDiveActive = false;
+                return;
+            }
+            currentTranslateY += Math.max(1.4, overlay.clientHeight * 0.0045);
+            subEl.style.transform = `translateY(${currentTranslateY.toFixed(2)}px)`;
+            autoDiveFrame = requestAnimationFrame(driftDown);
+        };
+
+        autoDiveFrame = requestAnimationFrame(driftDown);
+    };
+
+    const startDockingSequence = () => {
+        if (dockingActive || hasFinishedDive) return;
+        dockingActive = true;
+        autoDiveActive = false;
+        if (autoDiveFrame) cancelAnimationFrame(autoDiveFrame);
+        if (stationReachCheckFrame) cancelAnimationFrame(stationReachCheckFrame);
+
+        if (depthAnimationFrame) cancelAnimationFrame(depthAnimationFrame);
+        currentDepth = targetDepth;
+        depthEl.textContent = currentDepth + 'm';
+        updateStationDepthPositions();
+
+        const targetContainer = getTargetStationContainer();
+        if (targetContainer) {
+            targetContainer.classList.remove('checkpoint-target', 'checkpoint-pending');
+            targetContainer.classList.add('checkpoint-passed', 'docking-target');
+            const targetLane = targetContainer.classList.contains('left-side') ? 'left' : 'right';
+            applyMersionLane(targetLane, overlay);
+        }
+
+        renderCheckpointProgress(totalCheckpoints);
+        if (progressEl) progressEl.textContent = `${dockingPrefix} ${station.name}`;
+
+        if (dockingLink) {
+            dockingLink.style.opacity = '1';
+            dockingTrackFrame = requestAnimationFrame(trackDockingLink);
+        }
+
+        dockingTimer = setTimeout(() => {
+            if (dockingTrackFrame) cancelAnimationFrame(dockingTrackFrame);
+            if (dockingLink) dockingLink.style.opacity = '0';
+            dockingActive = false;
+            finishDive();
+        }, dockingDurationMs);
+    };
 
     // Create bubbles
     const bubblesContainer = document.getElementById('mersionBubbles');
@@ -524,19 +676,24 @@ function playMersion() {
         bubblesContainer.appendChild(particle);
     }
 
-    // Animate depth counter
-    let currentDepth = 0;
-    const targetDepth = station.depth;
-    const depthSteps = Math.max(70, Math.round(diveDurationMs / 55));
-    const depthTickMs = Math.max(35, Math.round(diveDurationMs / depthSteps));
-    const depthInterval = setInterval(() => {
-        currentDepth += Math.ceil(targetDepth / depthSteps);
-        if (currentDepth >= targetDepth) {
-            currentDepth = targetDepth;
-            clearInterval(depthInterval);
-        }
+    // Animate depth counter and station movement by real depth.
+    let depthAnimationFrame = 0;
+    let depthAnimationStart = 0;
+    const animateDepth = (timestamp) => {
+        if (!overlay.classList.contains('active') || hasFinishedDive || dockingActive) return;
+        if (!depthAnimationStart) depthAnimationStart = timestamp;
+
+        const elapsed = timestamp - depthAnimationStart;
+        const progress = Math.min(1, elapsed / diveDurationMs);
+        currentDepth = Math.round(targetDepth * progress);
         depthEl.textContent = currentDepth + 'm';
-    }, depthTickMs);
+        updateStationDepthPositions();
+
+        if (progress < 1) {
+            depthAnimationFrame = requestAnimationFrame(animateDepth);
+        }
+    };
+    depthAnimationFrame = requestAnimationFrame(animateDepth);
 
     const finishDive = () => {
         if (hasFinishedDive) return;
@@ -544,15 +701,25 @@ function playMersion() {
 
         // Clear particles and running trackers
         document.querySelectorAll('.mersion-depth-particle').forEach(p => p.remove());
-        if (finishLineTrackFrame) cancelAnimationFrame(finishLineTrackFrame);
-        if (finishCrossCheckFrame) cancelAnimationFrame(finishCrossCheckFrame);
+        if (stationReachCheckFrame) cancelAnimationFrame(stationReachCheckFrame);
+        if (checkpointTrackFrame) cancelAnimationFrame(checkpointTrackFrame);
+        if (dockingTrackFrame) cancelAnimationFrame(dockingTrackFrame);
+        if (autoDiveFrame) cancelAnimationFrame(autoDiveFrame);
+        if (autoDiveTimer) clearTimeout(autoDiveTimer);
+        if (dockingTimer) clearTimeout(dockingTimer);
         if (fishCollisionFrame) cancelAnimationFrame(fishCollisionFrame);
-        clearInterval(depthInterval);
+        if (depthAnimationFrame) cancelAnimationFrame(depthAnimationFrame);
         currentDepth = targetDepth;
         depthEl.textContent = currentDepth + 'm';
-        if (finishLine) finishLine.style.opacity = '0';
+        updateStationDepthPositions();
+        if (dockingLink) dockingLink.style.opacity = '0';
         fishSwarm.innerHTML = '';
+        document.querySelectorAll('.mersion-wall-station.docking-target').forEach(el => el.classList.remove('docking-target'));
         overlay.classList.remove('active');
+        subEl.style.transform = '';
+        autoDiveActive = false;
+        dockingActive = false;
+        renderCheckpointProgress(totalCheckpoints);
 
         // Rigged: Shift probability toward lower multiplier fish
         // Weight: first fish (lowest) gets highest weight
@@ -605,31 +772,31 @@ function playMersion() {
         diveBtn.disabled = false;
     };
 
-    // Finish the immersion only when submarine crosses the finish line.
-    const checkFinishLineCrossing = () => {
-        if (!overlay.classList.contains('active') || hasFinishedDive) return;
-        if (!finishLine || finishLine.style.opacity !== '1') {
-            finishCrossCheckFrame = requestAnimationFrame(checkFinishLineCrossing);
+    // Start ending only when depth is reached and boat is level with the station.
+    const checkTargetStationReached = () => {
+        if (!overlay.classList.contains('active') || hasFinishedDive || dockingActive) return;
+        const targetAnchor = getTargetStationAnchor();
+        if (!targetAnchor) {
+            stationReachCheckFrame = requestAnimationFrame(checkTargetStationReached);
             return;
         }
 
         const subRect = subEl.getBoundingClientRect();
-        const finishRect = finishLine.getBoundingClientRect();
-        const finishY = finishRect.top + finishRect.height / 2;
-        const intersectsFinishLine = subRect.top <= finishY && subRect.bottom >= finishY;
+        const targetRect = targetAnchor.getBoundingClientRect();
+        const targetY = targetRect.top + targetRect.height / 2;
+        const subCoreTop = subRect.top + subRect.height * 0.28;
+        const subCoreBottom = subRect.top + subRect.height * 0.84;
+        const alignedWithStation = subCoreTop <= targetY && subCoreBottom >= targetY;
+        const reachedStationDepth = currentDepth >= targetDepth;
 
-        if (intersectsFinishLine) {
-            finishDive();
+        if (reachedStationDepth && alignedWithStation) {
+            startDockingSequence();
             return;
         }
 
-        finishCrossCheckFrame = requestAnimationFrame(checkFinishLineCrossing);
+        stationReachCheckFrame = requestAnimationFrame(checkTargetStationReached);
     };
 
-    if (finishLine) {
-        finishCrossCheckFrame = requestAnimationFrame(checkFinishLineCrossing);
-    } else {
-        // Fallback path if finish line is missing from DOM.
-        setTimeout(finishDive, diveDurationMs);
-    }
+    stationReachCheckFrame = requestAnimationFrame(checkTargetStationReached);
+    autoDiveTimer = setTimeout(startAutoDiveToFinish, diveDurationMs + 80);
 }

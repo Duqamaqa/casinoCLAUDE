@@ -95,15 +95,27 @@
     box-shadow: 0 0 20px rgba(0, 200, 255, 0.15), inset 0 0 20px rgba(0, 200, 255, 0.05);
 }
 
+.mersion-station-icon,
+.mersion-fullmap-station-icon,
+.mersion-wall-station-icon {
+    background-image: url('../img/station-marker.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    color: transparent;
+    font-size: 0;
+    line-height: 0;
+}
+
 .mersion-station-icon {
-    font-size: 28px;
-    width: 44px;
-    height: 44px;
+    width: 58px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.06);
-    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(120, 220, 255, 0.2);
+    border-radius: 10px;
     flex-shrink: 0;
 }
 
@@ -265,7 +277,10 @@
 }
 
 .mersion-fullmap-station-icon {
-    font-size: 32px;
+    width: 66px;
+    height: 44px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 10px rgba(120, 220, 255, 0.45));
 }
 
 .mersion-fullmap-station-title {
@@ -663,11 +678,22 @@
     position: absolute;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     z-index: 4;
-    opacity: 0;
-    animation: wallStationAppear 0.5s ease-out forwards;
+    transform: translateY(-50%);
+    will-change: top;
     pointer-events: none;
+}
+
+.mersion-wall-station-body {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    transform: translateY(26vh);
+    animation: wallStationAppearFromBottom 0.72s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: var(--station-appear-delay, 0s);
+    will-change: transform, opacity;
 }
 
 .mersion-wall-station.left-side {
@@ -680,14 +706,21 @@
     flex-direction: row-reverse;
 }
 
+.mersion-wall-station.right-side .mersion-wall-station-body {
+    flex-direction: row-reverse;
+}
+
 .mersion-wall-station-icon {
-    font-size: 22px;
-    filter: drop-shadow(0 0 8px rgba(0, 200, 255, 0.4));
+    width: 92px;
+    height: 56px;
+    background-size: 112% auto;
+    filter: drop-shadow(0 0 16px rgba(0, 200, 255, 0.55));
+    flex-shrink: 0;
 }
 
 .mersion-wall-station-label {
     font-family: 'Syne', sans-serif;
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 700;
     color: rgba(0, 200, 255, 0.5);
     letter-spacing: 0.08em;
@@ -707,7 +740,7 @@
 
 .mersion-wall-station-line {
     height: 1px;
-    width: 20px;
+    width: 30px;
     background: linear-gradient(90deg, rgba(0, 200, 255, 0.3), transparent);
 }
 
@@ -728,15 +761,49 @@
     box-shadow: 0 0 12px rgba(0, 255, 180, 0.5);
 }
 
-@keyframes wallStationAppear {
+.mersion-wall-station.checkpoint-locked {
+    opacity: 0.3;
+}
+
+.mersion-wall-station.checkpoint-passed .mersion-wall-station-dot {
+    background: rgba(0, 255, 180, 0.88);
+    box-shadow: 0 0 14px rgba(0, 255, 180, 0.7);
+}
+
+.mersion-wall-station.checkpoint-passed .mersion-wall-station-label {
+    color: rgba(186, 255, 233, 0.92);
+}
+
+.mersion-wall-station.checkpoint-target .mersion-wall-station-dot {
+    background: rgba(255, 230, 120, 0.9);
+    box-shadow: 0 0 16px rgba(255, 220, 120, 0.7);
+}
+
+.mersion-wall-station.checkpoint-target .mersion-wall-station-label {
+    color: rgba(255, 235, 160, 0.9);
+}
+
+.mersion-wall-station.docking-target .mersion-wall-station-dot {
+    animation: dockingPulse 0.8s ease-in-out infinite;
+}
+
+@keyframes wallStationAppearFromBottom {
     0% {
         opacity: 0;
-        transform: translateX(0);
+        transform: translateY(26vh);
+    }
+
+    45% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 1;
     }
 
     100% {
         opacity: 1;
-        transform: translateX(0);
+        transform: translateY(0);
     }
 }
 
@@ -751,6 +818,20 @@
     50% {
         opacity: 1;
         transform: scale(1.5);
+    }
+}
+
+@keyframes dockingPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(255, 225, 130, 0.45);
+    }
+
+    50% {
+        transform: scale(1.65);
+        box-shadow: 0 0 20px rgba(255, 225, 130, 0.9);
     }
 }
 
@@ -825,6 +906,27 @@
     margin-top: 16px;
     animation: depthCount 8.5s ease-in-out;
     z-index: 5;
+}
+
+.mersion-dive-progress {
+    position: absolute;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 7;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(205, 244, 255, 0.94);
+    background: rgba(4, 27, 43, 0.66);
+    border: 1px solid rgba(120, 220, 255, 0.35);
+    border-radius: 999px;
+    padding: 5px 10px;
+    white-space: nowrap;
+    box-shadow: 0 0 14px rgba(0, 170, 230, 0.2);
+    pointer-events: none;
 }
 
 .mersion-bubbles {
@@ -964,27 +1066,30 @@
     animation: bubbleRise 2s ease-out infinite;
 }
 
-/* Full-width finish line at selected station depth */
-.mersion-finish-line {
+.mersion-docking-link {
     position: absolute;
-    left: 0;
-    right: 0;
+    left: 50%;
     top: 50%;
+    width: 0;
     height: 2px;
-    transform: translateY(-50%);
-    background: linear-gradient(90deg, rgba(120, 220, 255, 0.72) 0%, rgba(215, 248, 255, 0.95) 50%, rgba(120, 220, 255, 0.72) 100%);
-    box-shadow: 0 0 12px rgba(120, 220, 255, 0.45), 0 0 24px rgba(120, 220, 255, 0.2);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.08), rgba(255, 235, 150, 0.9));
+    transform-origin: 0 50%;
+    z-index: 6;
     opacity: 0;
-    z-index: 4;
     pointer-events: none;
 }
 
-.mersion-finish-line::before {
+.mersion-docking-link::after {
     content: '';
     position: absolute;
-    inset: -2px 0;
-    background: repeating-linear-gradient(90deg, rgba(200, 245, 255, 0.7) 0 10px, rgba(120, 220, 255, 0.1) 10px 18px);
-    opacity: 0.65;
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 230, 140, 0.95);
+    box-shadow: 0 0 18px rgba(255, 230, 140, 0.75);
 }
 
 @keyframes submarineDive {
