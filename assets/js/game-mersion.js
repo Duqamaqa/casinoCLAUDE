@@ -459,29 +459,43 @@ function playMersion() {
     let stationReachCheckFrame = 0;
     let checkpointTrackFrame = 0;
     let dockingTrackFrame = 0;
+    let dockingApproachFrame = 0;
     let autoDiveFrame = 0;
     let autoDiveTimer = 0;
-    let dockingTimer = 0;
-    const dockingDurationMs = 2600;
+    const dockingDurationMs = 3200;
     let hasFinishedDive = false;
     let autoDiveActive = false;
     let dockingActive = false;
-    const getElementTranslateY = (element) => {
+    const getElementTranslate = (element) => {
         const transform = window.getComputedStyle(element).transform;
-        if (!transform || transform === 'none') return 0;
+        if (!transform || transform === 'none') return { x: 0, y: 0 };
 
         try {
-            if (window.DOMMatrixReadOnly) return new DOMMatrixReadOnly(transform).m42;
-            if (window.DOMMatrix) return new DOMMatrix(transform).m42;
+            if (window.DOMMatrixReadOnly) {
+                const matrix = new DOMMatrixReadOnly(transform);
+                return { x: matrix.m41, y: matrix.m42 };
+            }
+            if (window.DOMMatrix) {
+                const matrix = new DOMMatrix(transform);
+                return { x: matrix.m41, y: matrix.m42 };
+            }
         } catch (_) {
             // Fallback below handles matrix parsing for older environments.
         }
 
         const matrixMatch = transform.match(/matrix(3d)?\(([^)]+)\)/);
-        if (!matrixMatch) return 0;
+        if (!matrixMatch) return { x: 0, y: 0 };
         const values = matrixMatch[2].split(',').map(v => parseFloat(v.trim()));
-        if (matrixMatch[1] === '3d') return values[13] || 0;
-        return values[5] || 0;
+        if (matrixMatch[1] === '3d') {
+            return {
+                x: values[12] || 0,
+                y: values[13] || 0
+            };
+        }
+        return {
+            x: values[4] || 0,
+            y: values[5] || 0
+        };
     };
     const getTargetStationContainer = () => {
         if (targetStationMarker && document.body.contains(targetStationMarker)) return targetStationMarker;
@@ -538,11 +552,77 @@ function playMersion() {
         dockingTrackFrame = requestAnimationFrame(trackDockingLink);
     };
 
+    const startSubDockingApproach = () => {
+        if (!dockingActive || hasFinishedDive || !overlay.classList.contains('active')) return;
+        const startTranslate = getElementTranslate(subEl);
+        let dockTranslateX = startTranslate.x;
+        let dockTranslateY = startTranslate.y;
+        const dockApproachMs = Math.max(2600, Math.round(dockingDurationMs * 1.1));
+        const dockGapPx = 10;
+        let dockApproachStart = 0;
+
+        subEl.style.animation = 'none';
+        subEl.style.transition = 'none';
+        subEl.style.transform = `translate(${dockTranslateX.toFixed(2)}px, ${dockTranslateY.toFixed(2)}px)`;
+
+        const approachStep = (timestamp) => {
+            if (!dockingActive || hasFinishedDive || !overlay.classList.contains('active')) return;
+            if (!dockApproachStart) dockApproachStart = timestamp;
+
+            const elapsed = timestamp - dockApproachStart;
+            const progress = Math.min(1, elapsed / dockApproachMs);
+            const targetAnchor = getTargetStationAnchor();
+            if (targetAnchor) {
+                const subRect = subEl.getBoundingClientRect();
+                const targetRect = targetAnchor.getBoundingClientRect();
+                const targetX = targetRect.left + targetRect.width / 2;
+                const targetY = targetRect.top + targetRect.height / 2;
+                const subCenterX = subRect.left + subRect.width / 2;
+                const approachFromRight = targetX >= subCenterX;
+                const attachX = subRect.left + (approachFromRight ? subRect.width * 0.78 : subRect.width * 0.22);
+                const attachY = subRect.top + subRect.height * 0.56;
+                const desiredAttachX = targetX + (approachFromRight ? -dockGapPx : dockGapPx);
+                const desiredAttachY = targetY;
+                const errorX = desiredAttachX - attachX;
+                const errorY = desiredAttachY - attachY;
+                const gainX = 0.1 - progress * 0.05;
+                const gainY = 0.08 - progress * 0.04;
+                // Keep immersion feel: never move submarine upward during docking approach.
+                const downOnlyErrorY = errorY > 0 ? errorY : 0;
+                const maxStepX = 2.2;
+                const maxStepY = 1.15;
+                const stepX = Math.max(-maxStepX, Math.min(maxStepX, errorX * gainX));
+                const stepY = Math.max(0, Math.min(maxStepY, downOnlyErrorY * gainY));
+                dockTranslateX += stepX;
+                dockTranslateY += stepY;
+                subEl.style.transform = `translate(${dockTranslateX.toFixed(2)}px, ${dockTranslateY.toFixed(2)}px)`;
+
+                const connectedHorizontally = Math.abs(errorX) <= 2;
+                const connectedVertically = Math.abs(errorY) <= 8;
+                if (connectedHorizontally && connectedVertically) {
+                    if (dockingTrackFrame) cancelAnimationFrame(dockingTrackFrame);
+                    if (dockingApproachFrame) cancelAnimationFrame(dockingApproachFrame);
+                    if (dockingLink) dockingLink.style.opacity = '0';
+                    dockingActive = false;
+                    finishDive();
+                    return;
+                }
+            }
+
+            dockingApproachFrame = requestAnimationFrame(approachStep);
+        };
+
+        dockingApproachFrame = requestAnimationFrame(approachStep);
+    };
+
     const startAutoDiveToFinish = () => {
         if (autoDiveActive || dockingActive || hasFinishedDive || !overlay.classList.contains('active')) return;
         autoDiveActive = true;
-        let currentTranslateY = getElementTranslateY(subEl);
+        const currentTranslate = getElementTranslate(subEl);
+        let currentTranslateX = currentTranslate.x;
+        let currentTranslateY = currentTranslate.y;
         subEl.style.animation = 'none';
+        subEl.style.transition = 'none';
 
         const driftDown = () => {
             if (hasFinishedDive || dockingActive || !overlay.classList.contains('active')) {
@@ -550,7 +630,7 @@ function playMersion() {
                 return;
             }
             currentTranslateY += Math.max(1.4, overlay.clientHeight * 0.0045);
-            subEl.style.transform = `translateY(${currentTranslateY.toFixed(2)}px)`;
+            subEl.style.transform = `translate(${currentTranslateX.toFixed(2)}px, ${currentTranslateY.toFixed(2)}px)`;
             autoDiveFrame = requestAnimationFrame(driftDown);
         };
 
@@ -563,6 +643,7 @@ function playMersion() {
         autoDiveActive = false;
         if (autoDiveFrame) cancelAnimationFrame(autoDiveFrame);
         if (stationReachCheckFrame) cancelAnimationFrame(stationReachCheckFrame);
+        if (dockingApproachFrame) cancelAnimationFrame(dockingApproachFrame);
 
         if (depthAnimationFrame) cancelAnimationFrame(depthAnimationFrame);
         currentDepth = targetDepth;
@@ -584,13 +665,7 @@ function playMersion() {
             dockingLink.style.opacity = '1';
             dockingTrackFrame = requestAnimationFrame(trackDockingLink);
         }
-
-        dockingTimer = setTimeout(() => {
-            if (dockingTrackFrame) cancelAnimationFrame(dockingTrackFrame);
-            if (dockingLink) dockingLink.style.opacity = '0';
-            dockingActive = false;
-            finishDive();
-        }, dockingDurationMs);
+        startSubDockingApproach();
     };
 
     // Create bubbles
@@ -704,9 +779,9 @@ function playMersion() {
         if (stationReachCheckFrame) cancelAnimationFrame(stationReachCheckFrame);
         if (checkpointTrackFrame) cancelAnimationFrame(checkpointTrackFrame);
         if (dockingTrackFrame) cancelAnimationFrame(dockingTrackFrame);
+        if (dockingApproachFrame) cancelAnimationFrame(dockingApproachFrame);
         if (autoDiveFrame) cancelAnimationFrame(autoDiveFrame);
         if (autoDiveTimer) clearTimeout(autoDiveTimer);
-        if (dockingTimer) clearTimeout(dockingTimer);
         if (fishCollisionFrame) cancelAnimationFrame(fishCollisionFrame);
         if (depthAnimationFrame) cancelAnimationFrame(depthAnimationFrame);
         currentDepth = targetDepth;
@@ -717,6 +792,7 @@ function playMersion() {
         document.querySelectorAll('.mersion-wall-station.docking-target').forEach(el => el.classList.remove('docking-target'));
         overlay.classList.remove('active');
         subEl.style.transform = '';
+        subEl.style.transition = '';
         autoDiveActive = false;
         dockingActive = false;
         renderCheckpointProgress(totalCheckpoints);
